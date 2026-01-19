@@ -2,13 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
-import dynamic from 'next/dynamic'
 
-// Dynamically import GlobePreview to avoid SSR issues
-const GlobePreview = dynamic(
-  () => import('@/components/globe/GlobePreview'),
-  { ssr: false }
-)
 
 function getCurrentDate() {
   const now = new Date()
@@ -140,6 +134,12 @@ function GlitchText() {
 }
 
 export default function Hero() {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
 
   return (
     <section className="relative min-h-screen flex flex-col overflow-hidden bg-bg-primary">
@@ -204,29 +204,31 @@ export default function Hero() {
 
       {/* Binary Code Scrolling Effect */}
       <div className="absolute inset-0 opacity-[0.08] pointer-events-none overflow-hidden">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute font-mono text-accent-primary text-xs"
-            style={{
-              left: `${(i * 5) % 100}%`,
-              top: '-20px',
-            }}
-            animate={{
-              y: ['0vh', '100vh'],
-            }}
-            transition={{
-              duration: Math.random() * 10 + 15,
-              repeat: Infinity,
-              delay: Math.random() * 5,
-              ease: 'linear',
-            }}
-          >
-            {Array.from({ length: 20 }, () =>
-              Math.random() > 0.5 ? '1' : '0'
-            ).join(' ')}
-          </motion.div>
-        ))}
+        {mounted ? (
+          [...Array(20)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute font-mono text-accent-primary text-xs"
+              style={{
+                left: `${(i * 5) % 100}%`,
+                top: '-20px',
+              }}
+              animate={{
+                y: ['0vh', '100vh'],
+              }}
+              transition={{
+                duration: Math.random() * 10 + 15,
+                repeat: Infinity,
+                delay: Math.random() * 5,
+                ease: 'linear',
+              }}
+            >
+              {Array.from({ length: 20 }, () =>
+                Math.random() > 0.5 ? '1' : '0'
+              ).join(' ')}
+            </motion.div>
+          ))
+        ) : null}
       </div>
 
       {/* Scan Lines Effect */}
@@ -247,7 +249,7 @@ export default function Hero() {
 
       {/* Glowing Grid Points */}
       <div className="absolute inset-0 opacity-[0.2] pointer-events-none">
-        {[...Array(50)].map((_, i) => (
+        {mounted && [...Array(50)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-1 h-1 bg-accent-primary rounded-full"
@@ -270,7 +272,7 @@ export default function Hero() {
       </div>
 
       {/* Top section - Date and location (Fixed at top) */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-bg-primary/80 backdrop-blur-sm">
+      <div className="top-0 left-0 right-0 z-50 bg-bg-primary/80 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-6 md:py-8">
           <motion.div
             initial={{ opacity: 0 }}
@@ -299,6 +301,8 @@ export default function Hero() {
           </motion.div>
         </div>
       </div>
+
+
 
       {/* Center section - Main name with glitch effect (80% of viewport) */}
       <div className="h-[80vh] flex items-center justify-center pt-20">
@@ -331,18 +335,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Bottom section - Globe preview (20% of viewport) */}
-      <div className="h-[20vh] w-full relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-t from-bg-primary via-bg-primary/80 to-transparent z-10" />
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.5, delay: 1.5, ease: 'easeOut' }}
-          className="absolute inset-0 z-0"
-        >
-          <GlobePreview />
-        </motion.div>
-      </div>
     </section>
   )
 }
