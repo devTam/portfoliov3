@@ -1,14 +1,9 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-Plan.md
 CV.md
+Plan.md
+IMPLEMENTATION_PLAN.md
 PHASE1_COMPLETE.md
-PHASE2_COMPLETE.md
-PHASE3_COMPLETE.md
-PHASE4_COMPLETE.md
-PHASE5_COMPLETE.md
-PHASE6_COMPLETE.md
-PHASE7_COMPLETE.md
 
 # dependencies
 /node_modules

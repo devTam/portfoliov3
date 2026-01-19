@@ -30,7 +30,7 @@ export default function Footer() {
             <nav className="flex gap-6 mb-4">
               <Link 
                 href="mailto:tammy.batubo@gmail.com" 
-                className="text-xs font-mono text-white/60 hover:text-accent-primary transition-colors uppercase tracking-wider"
+                className="text-xs font-mono text-white/60 hover:text-accent-primary hover:underline underline-offset-4 transition-all uppercase tracking-wider"
               >
                 [ EMAIL ]
               </Link>
@@ -38,15 +38,15 @@ export default function Footer() {
                 href="https://linkedin.com/in/tammybatubo" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-xs font-mono text-white/60 hover:text-accent-primary transition-colors uppercase tracking-wider"
+                className="text-xs font-mono text-white/60 hover:text-accent-primary hover:underline underline-offset-4 transition-all uppercase tracking-wider"
               >
                 [ LINKEDIN ]
               </Link>
               <Link 
-                href="https://github.com" 
+                href="https://github.com/devTam" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-xs font-mono text-white/60 hover:text-accent-primary transition-colors uppercase tracking-wider"
+                className="text-xs font-mono text-white/60 hover:text-accent-primary hover:underline underline-offset-4 transition-all uppercase tracking-wider"
               >
                 [ GITHUB ]
               </Link>

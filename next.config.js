@@ -5,9 +5,9 @@ const nextConfig = {
     domains: [],
     formats: ['image/avif', 'image/webp'],
   },
-  experimental: {
+  /* experimental: {
     optimizePackageImports: ['@react-three/fiber', '@react-three/drei'],
-  },
+  }, */
 }
 
 module.exports = nextConfig

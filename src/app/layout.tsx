@@ -17,6 +17,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://tammy-portfolio.com'), // Replace with actual domain
   title: 'Tammy Inoma-Batubo | Senior Software Engineer Portfolio',
   description:
     '5+ years of experience in full-stack development. Specialized in React, TypeScript, Node.js, and Web3. Available for freelance and team opportunities.',
@@ -37,6 +38,9 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Tammy Inoma-Batubo | Senior Software Engineer',
     description: 'Portfolio showcasing 5+ years of software development experience',
+  },
+  icons: {
+    icon: '/ai-avatar.jpg',
   },
 }
 

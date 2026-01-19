@@ -1,9 +1,10 @@
 'use client'
 
-import { Suspense, useRef, useCallback, useEffect, useState } from 'react'
-import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
+import { Suspense, useRef, useCallback, useEffect } from 'react'
+import { useFrame, useLoader, useThree, Canvas } from '@react-three/fiber'
 import { OrbitControls, Sphere, Stars } from '@react-three/drei'
 import * as THREE from 'three'
+import { gsap } from 'gsap'
 import { companies, Company } from '@/lib/data/companies'
 import { latLngToVector3 } from '@/lib/utils/coordinates'
 import LocationMarker from './LocationMarker'
@@ -49,7 +50,7 @@ function CameraController({
   targetPosition: [number, number, number] | null
 }) {
   const { camera } = useThree()
-  const targetRef = useRef<THREE.Vector3>(new THREE.Vector3(0, 0, 2.5))
+  // targetRef removed as we animate directly in useEffect
   
   useEffect(() => {
     if (targetPosition) {
@@ -58,17 +59,20 @@ function CameraController({
       const markerVec = new THREE.Vector3(x, y, z).normalize()
       // Camera should be positioned along the line from origin through marker, but further out
       const cameraDistance = 2.8 // Increased for smaller globe appearance
-      targetRef.current = markerVec.multiplyScalar(cameraDistance)
+      const targetPos = markerVec.multiplyScalar(cameraDistance)
+      
+      gsap.to(camera.position, {
+        x: targetPos.x,
+        y: targetPos.y,
+        z: targetPos.z,
+        duration: 1.5,
+        ease: "power3.inOut",
+        onUpdate: () => {
+          camera.lookAt(0, 0, 0)
+        }
+      })
     }
-  }, [targetPosition])
-
-  useFrame(() => {
-    if (targetRef.current) {
-      // Smoothly interpolate camera position
-      camera.position.lerp(targetRef.current, 0.02)
-      camera.lookAt(0, 0, 0)
-    }
-  })
+  }, [targetPosition, camera])
 
   return null
 }
@@ -77,7 +81,7 @@ function GlobeScene({
   onMarkerClick,
   selectedCompanyId,
   featuredCompanyId,
-  isPaused,
+  isPaused: _isPaused,
   onHoverStart,
   onHoverEnd,
 }: GlobeSceneProps) {

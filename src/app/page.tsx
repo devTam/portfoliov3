@@ -1,12 +1,17 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import Footer from '@/components/layout/Footer'
 import Hero from '@/components/landing/Hero'
 import Intro from '@/components/landing/Intro'
+import dynamic from 'next/dynamic'
 import Contact from '@/components/landing/Contact'
-import GlobeSection from '@/components/globe/GlobeSection'
+// Lazy load GlobeSection with SSR disabled for avoiding hydration mismatches and performance
+const GlobeSection = dynamic(() => import('@/components/globe/GlobeSection'), { 
+  ssr: false,
+  loading: () => <div className="h-[700px] w-full bg-black/20" /> 
+})
 import LoadingScreen from '@/components/ui/LoadingScreen'
 import AIAssistant from '@/components/ai/AIAssistant'
 

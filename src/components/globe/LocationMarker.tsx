@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, useMemo, useEffect } from 'react'
+import { useRef, useState, useMemo } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Sphere, Cone, Html } from '@react-three/drei'
 import * as THREE from 'three'
@@ -21,7 +21,7 @@ function HoverChatbox({ company, onClick }: { company: Company; onClick: () => v
   return (
     <div 
       className="select-none cursor-pointer"
-      onClick={(e) => {
+      onClick={(e: React.MouseEvent<HTMLDivElement>) => {
         e.stopPropagation()
         onClick()
       }}

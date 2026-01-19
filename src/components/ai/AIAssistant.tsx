@@ -1,16 +1,23 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { processQuery, Message } from '@/lib/ai-logic'
+
+interface Message {
+  id: string
+  role: 'user' | 'assistant'
+  content: string
+  timestamp: Date
+}
 
 export default function AIAssistant() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 'init',
-      text: "SYSTEM ONLINE. I am the Portfolio Core AI. Ask me about Tammy's skills or experience.",
-      sender: 'system',
+      role: 'assistant',
+      content: "SYSTEM ONLINE. I am the Portfolio Core AI. Ask me about Tammy's skills, experience, or current availability.",
       timestamp: new Date()
     }
   ])
@@ -28,31 +35,59 @@ export default function AIAssistant() {
 
   const handleSendMessage = async (e?: React.FormEvent) => {
     e?.preventDefault()
-    if (!inputValue.trim()) return
+    if (!inputValue.trim() || isTyping) return
 
+    const userText = inputValue
+    setInputValue('')
+    
+    // Add User Message
     const userMsg: Message = {
       id: Date.now().toString(),
-      text: inputValue,
-      sender: 'user',
+      role: 'user',
+      content: userText,
       timestamp: new Date()
     }
-
     setMessages(prev => [...prev, userMsg])
-    setInputValue('')
     setIsTyping(true)
 
-    // Simulate processing delay
-    setTimeout(() => {
-      const responseText = processQuery(userMsg.text)
+    try {
+      // Prepare context for API: Convert to minimal format
+      // Sending last 10 messages for context window
+      const apiMessages = [...messages, userMsg].slice(-10).map(m => ({
+        role: m.role,
+        content: m.content
+      }))
+
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: apiMessages })
+      })
+
+      if (!response.ok) throw new Error('Network response was not ok')
+
+      const data = await response.json()
+      
       const systemMsg: Message = {
         id: (Date.now() + 1).toString(),
-        text: responseText,
-        sender: 'system',
+        role: 'assistant',
+        content: data.content,
         timestamp: new Date()
       }
+
       setMessages(prev => [...prev, systemMsg])
+    } catch (error) {
+      console.error('Chat Error:', error)
+      const errorMsg: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: "SYSTEM ERROR: Uplink failed. Please check your internet connection or API configuration.",
+        timestamp: new Date()
+      }
+      setMessages(prev => [...prev, errorMsg])
+    } finally {
       setIsTyping(false)
-    }, 1000 + Math.random() * 500)
+    }
   }
 
   return (
@@ -79,6 +114,7 @@ export default function AIAssistant() {
 
         {/* Button */}
         <motion.button
+          aria-label="Open AI Assistant"
           className="relative w-20 h-20 rounded-full bg-black/90 border-2 border-accent-primary/60 backdrop-blur-md flex items-center justify-center group hover:border-accent-primary hover:shadow-[0_0_30px_rgba(34,197,94,0.3)] transition-all duration-300 overflow-hidden"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -86,11 +122,13 @@ export default function AIAssistant() {
         >
           {!isOpen && (
             <div className="absolute inset-0">
-              {/* Avatar Image for Button */}
-              <img 
+               {/* Avatar Image for Button */}
+              <Image 
                 src="/ai-avatar.jpg" 
                 alt="AI Avatar" 
-                className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
+                fill
+                unoptimized
+                className="object-cover opacity-90"
               />
               {/* Scanline overlay */}
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent-primary/20 to-transparent animate-scan" style={{ animationDuration: '2s' }} />
@@ -119,7 +157,7 @@ export default function AIAssistant() {
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
                 <span className="text-xs font-mono text-accent-primary tracking-widest">
-                  SYSTEM CORE // ONLINE
+                  SYSTEM CORE // ACTIVE
                 </span>
               </div>
               <button 
@@ -134,14 +172,16 @@ export default function AIAssistant() {
 
             {/* Avatar & Visualization Area */}
             <div className="relative h-32 w-full overflow-hidden border-b border-white/10 bg-black">
-               <img 
+                <Image 
                   src="/ai-avatar.jpg" 
                   alt="AI Core" 
-                  className="w-full h-full object-cover object-top opacity-60"
+                  fill
+                  unoptimized
+                  className="object-cover object-top opacity-80"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
                 <div className="absolute bottom-2 left-4 text-xs font-mono text-white/60">
-                  <span className="text-accent-primary">[AI_MODEL]</span> TACTICAL_ASSISTANT_V1
+                  <span className="text-accent-primary">[AI_MODEL]</span> TACTICAL_ASSISTANT_V2
                 </div>
             </div>
 
@@ -150,21 +190,21 @@ export default function AIAssistant() {
               {messages.map((msg) => (
                 <div 
                   key={msg.id} 
-                  className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
+                  className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'}`}
                 >
                   <div 
                     className={`
                       max-w-[85%] p-3 rounded-sm font-mono text-xs md:text-sm leading-relaxed
-                      ${msg.sender === 'user' 
+                      ${msg.role === 'user' 
                         ? 'bg-white/10 text-white border border-white/10' 
                         : 'bg-accent-primary/10 text-accent-primary border border-accent-primary/20'
                       }
                     `}
                   >
-                    {msg.text}
+                    {msg.content}
                   </div>
                   <span className="text-[9px] text-white/20 mt-1 uppercase font-mono">
-                    {msg.sender === 'user' ? 'YOU' : 'SYS_CORE'}
+                    {msg.role === 'user' ? 'YOU' : 'SYS_CORE'}
                   </span>
                 </div>
               ))}
@@ -178,6 +218,9 @@ export default function AIAssistant() {
                       <div className="w-1.5 h-1.5 bg-accent-primary rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
                     </div>
                   </div>
+                  <span className="text-[9px] text-white/20 mt-1 uppercase font-mono ml-2 self-center">
+                    PROCESSING...
+                  </span>
                 </div>
               )}
               <div ref={messagesEndRef} />

@@ -1,19 +1,12 @@
-export interface Message {
-  id: string
-  text: string
-  sender: 'user' | 'system'
-  timestamp: Date
-}
-
-type ResponsePattern = {
+type CacheEntry = {
   keywords: string[]
   responses: string[]
   priority: number
 }
 
-const knowledgeBase: ResponsePattern[] = [
+const STATIC_CACHE: CacheEntry[] = [
   {
-    keywords: ['hire', 'contact', 'email', 'touch', 'available', 'job', 'contract', 'freelance'],
+    keywords: ['hire', 'contact', 'email', 'touch', 'available', 'job', 'contract', 'freelance', 'work'],
     priority: 10,
     responses: [
       "AFFIRMATIVE. I am currently available for new deployments. My expertise is ready to be utilized for your mission. You can initiate contact via the transmission links below.",
@@ -22,7 +15,7 @@ const knowledgeBase: ResponsePattern[] = [
     ]
   },
   {
-    keywords: ['stack', 'tech', 'technology', 'skill', 'language', 'framework', 'react', 'next', 'node', 'know'],
+    keywords: ['stack', 'tech', 'technology', 'skill', 'language', 'framework', 'react', 'next', 'node', 'know', 'expert'],
     priority: 8,
     responses: [
       "CORE SYSTEMS: High-proficiency in React, Next.js, and TypeScript. \nBACKEND SUBSYSTEMS: Node.js, PostgreSQL, and AWS infrastructure. \nOPTIMIZATION: Expert in performance tuning and interactive 3D web technologies (Three.js/R3F).",
@@ -31,7 +24,7 @@ const knowledgeBase: ResponsePattern[] = [
     ]
   },
   {
-    keywords: ['experience', 'work', 'history', 'company', 'companies', 'background', 'past'],
+    keywords: ['experience', 'history', 'background', 'past', 'companies', 'company'],
     priority: 8,
     responses: [
       "LOGS RETRIEVED: 5+ years of operational experience. \nMISSION HISTORY: Deployed code for 7+ major companies worldwide. \nSUCCESS RATE: 50+ projects delivered with high impact. \nYou can view detailed mission logs in the 'Experience' sector (Globe).",
@@ -39,43 +32,21 @@ const knowledgeBase: ResponsePattern[] = [
     ]
   },
   {
-    keywords: ['hello', 'hi', 'hey', 'greetings', 'start', 'begin'],
+    keywords: ['hello', 'hi', 'hey', 'greetings', 'start', 'begin', 'yo'],
     priority: 5,
     responses: [
       "SYSTEM ONLINE. Greetings. How may I assist you with your hiring decision today?",
       "CONNECTION ESTABLISHED. I am the Core System Assistant. Query me about my capabilities or work history.",
       "ACKNOWLEDGED. Ready to process your inquiries."
     ]
-  },
-  {
-    keywords: ['salary', 'rate', 'cost', 'pay'],
-    priority: 7,
-    responses: [
-      "FINANCIAL DATA CLASSIFIED. Please establish a direct channel via Email to discuss compensation parameters.",
-      "Rates vary based on mission complexity and duration. Initiate an email transmission to receive a custom quote."
-    ]
-  },
-  {
-    keywords: ['who', 'are', 'you', 'name'],
-    priority: 6,
-    responses: [
-      "I am the digital construct of Tammy's professional portfolio. My purpose is to facilitate your evaluation and potential hiring of the primary user.",
-      "DESIGNATION: System Core AI. \nOPERATOR: Tammy Inoma-Batubo. \nOBJECTIVE: Demonstrate technical excellence."
-    ]
   }
 ]
 
-const fallbackResponses = [
-  "INPUT UNRECOGNIZED. Please refine your query. You can ask about my skills, experience, or how to hire me.",
-  "DATA NOT FOUND. Try querying about 'Tech Stack', 'Experience', or 'Contact Info'.",
-  "COMMAND UNCLEAR. Rephrase: 'What is your experience?' or 'Are you available?'"
-]
-
-export function processQuery(input: string): string {
+export function checkStaticCache(input: string): string | null {
   const normalizedInput = input.toLowerCase()
   
   // Find best matching pattern
-  const matches = knowledgeBase
+  const matches = STATIC_CACHE
     .filter(pattern => pattern.keywords.some(keyword => normalizedInput.includes(keyword)))
     .sort((a, b) => b.priority - a.priority)
 
@@ -85,6 +56,5 @@ export function processQuery(input: string): string {
     return responses[Math.floor(Math.random() * responses.length)]
   }
 
-  // Fallback
-  return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)]
+  return null
 }

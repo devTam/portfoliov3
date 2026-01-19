@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import GlitchText from '@/components/ui/GlitchText'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
@@ -63,12 +64,13 @@ export default function Intro() {
           {/* Left Column - Bio */}
           <div className="lg:col-span-7">
             <span className="text-xs font-mono text-accent-primary mb-6 block tracking-widest">
-              // ABOUT_PROFILE
+              {/* // ABOUT_PROFILE */}
+              ABOUT_PROFILE
             </span>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 leading-tight uppercase font-mono tracking-tighter">
-              Analytical<br/>
-              <span className="text-white/40">Results-Driven</span><br/>
-              Collaborative
+              <GlitchText text="Analytical" /><br/>
+              <span className="text-white/40"><GlitchText text="Results-Driven" /></span><br/>
+              <GlitchText text="Collaborative" />
             </h2>
             <div className="font-mono text-sm md:text-base text-white/60 space-y-6 leading-relaxed max-w-2xl border-l border-white/10 pl-6">
               <p>
@@ -100,7 +102,8 @@ export default function Intro() {
             {/* Tech Stack - Raw Data Look */}
             <div id="intro-tech">
               <span className="text-xs font-mono text-white/30 mb-6 block tracking-widest border-b border-white/10 pb-2">
-                // SYSTEM_DEPENDENCIES
+                {/* // SYSTEM_DEPENDENCIES */}
+                SYSTEM_DEPENDENCIES
               </span>
               <div className="flex flex-wrap gap-2">
                 {techStack.map((tech) => (

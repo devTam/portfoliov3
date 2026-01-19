@@ -22,7 +22,7 @@ const tourCompanies = companies.filter(
   c => !(c.location.coordinates.lat === 0 && c.location.coordinates.lng === 0)
 )
 
-const TOUR_INTERVAL = 5000 // 5 seconds per location
+const TOUR_INTERVAL = 5000 // 3 seconds per location
 const MANUAL_PAUSE = 15000 // 15 seconds pause for manual navigation
 
 export default function GlobeSection() {
@@ -76,11 +76,6 @@ export default function GlobeSection() {
       setIsPaused(false)
     }, MANUAL_PAUSE)
   }, [])
-
-  const handleDotClick = useCallback((index: number) => {
-    setFeaturedIndex(index)
-    pauseAndResume()
-  }, [pauseAndResume])
 
   const handlePrev = useCallback(() => {
     setFeaturedIndex((prev) => 
@@ -156,7 +151,7 @@ export default function GlobeSection() {
             transition={{ delay: 0.2 }}
             className="mt-6 text-sm font-mono text-accent-primary max-w-md"
           >
-            // EXPLORING PROFESSIONAL JOURNEY ACROSS COORDINATES
+            {"// EXPLORING PROFESSIONAL JOURNEY ACROSS COORDINATES"}
           </motion.p>
         </div>
 
