@@ -1,0 +1,159 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Primary Colors */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #111111;
+  --bg-tertiary: #1a1a1a;
+
+  /* Accent Colors */
+  --accent-primary: #00ff41;
+  --accent-secondary: #00d4ff;
+  --accent-tertiary: #ff0080;
+
+  /* Text Colors */
+  --text-primary: #ffffff;
+  --text-secondary: #b3b3b3;
+  --text-tertiary: #666666;
+  --text-accent: #00ff41;
+
+  /* Glow Effects */
+  --glow-green: rgba(0, 255, 65, 0.5);
+  --glow-cyan: rgba(0, 212, 255, 0.5);
+  --glow-pink: rgba(255, 0, 128, 0.5);
+
+  /* Semantic Colors */
+  --success: #00ff41;
+  --warning: #ffaa00;
+  --error: #ff0040;
+  --info: #00d4ff;
+
+  /* Globe Colors */
+  --globe-ocean: #0a1a2e;
+  --globe-land: #1a2a3a;
+  --globe-grid: rgba(0, 255, 65, 0.1);
+  --marker-glow: #00ff41;
+  --beam-color: #00d4ff;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+}
+
+body {
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-secondary);
+}
+
+/* Selection Styling */
+::selection {
+  background-color: var(--accent-primary);
+  color: var(--bg-primary);
+}
+
+/* Scan Lines Effect (Optional) */
+.scanlines::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  z-index: 9999;
+}
+
+/* Glow Text Effect */
+.text-glow-green {
+  text-shadow: 0 0 10px var(--glow-green), 0 0 20px var(--glow-green),
+    0 0 30px var(--glow-green);
+}
+
+.text-glow-cyan {
+  text-shadow: 0 0 10px var(--glow-cyan), 0 0 20px var(--glow-cyan),
+    0 0 30px var(--glow-cyan);
+}
+
+.text-glow-pink {
+  text-shadow: 0 0 10px var(--glow-pink), 0 0 20px var(--glow-pink),
+    0 0 30px var(--glow-pink);
+}
+
+/* Glow Box Effect */
+.box-glow-green {
+  box-shadow: 0 0 20px var(--glow-green), 0 0 40px var(--glow-green);
+}
+
+.box-glow-cyan {
+  box-shadow: 0 0 20px var(--glow-cyan), 0 0 40px var(--glow-cyan);
+}
+
+.box-glow-pink {
+  box-shadow: 0 0 20px var(--glow-pink), 0 0 40px var(--glow-pink);
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus Styles */
+*:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Container */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding: 0 2rem;
+  }
+}
