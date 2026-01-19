@@ -1,152 +1,121 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { useIntersectionObserver } from '@/lib/hooks/useIntersectionObserver'
+import { useEffect, useRef } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger)
+}
 
 const stats = [
-  { label: 'Years of Experience', value: '5+' },
-  { label: 'Companies Worked', value: '7+' },
-  { label: 'Projects Delivered', value: '50+' },
-  { label: 'Technologies', value: '20+' },
+  { label: 'YEARS ESP', value: '05' },
+  { label: 'COMPANIES', value: '07' },
+  { label: 'PROJECTS', value: '50+' },
+  { label: 'STACK_SIZE', value: '20+' },
 ]
 
 const techStack = [
-  'React',
-  'TypeScript',
-  'Node.js',
-  'Next.js',
-  'Express',
-  'MongoDB',
-  'PostgreSQL',
-  'AWS',
-  'Docker',
-  'GraphQL',
-  'Redux',
-  'Web3',
+  'REACT', 'TYPESCRIPT', 'NODE_JS', 'NEXT_JS',
+  'EXPRESS', 'MONGODB', 'POSTGRESQL', 'AWS',
+  'DOCKER', 'GRAPHQL', 'REDUX', 'WEB3'
 ]
 
 export default function Intro() {
-  const { elementRef, hasIntersected } = useIntersectionObserver({
-    threshold: 0.2,
-    triggerOnce: true,
-  })
+  const sectionRef = useRef<HTMLElement>(null)
+  
+  useEffect(() => {
+    if (!sectionRef.current) return
+    
+    // Animate stats
+    const ctx = gsap.context(() => {
+      gsap.from('.stat-item', {
+        y: 20,
+        opacity: 0,
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: '#intro-stats',
+          start: 'top 80%',
+        }
+      })
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  }
+      gsap.from('.tech-item', {
+        scale: 0,
+        opacity: 0,
+        stagger: 0.05,
+        scrollTrigger: {
+          trigger: '#intro-tech',
+          start: 'top 80%',
+        }
+      })
+    }, sectionRef)
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-      },
-    },
-  }
+    return () => ctx.revert()
+  }, [])
 
   return (
-    <section
-      id="intro"
-      ref={elementRef as React.RefObject<HTMLElement>}
-      className="py-20 md:py-32 bg-bg-secondary relative overflow-hidden"
-    >
-      {/* Background decoration */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-accent-primary rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent-secondary rounded-full blur-3xl" />
-      </div>
-
-      <div className="container mx-auto px-4 relative z-10">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={hasIntersected ? 'visible' : 'hidden'}
-          className="max-w-4xl mx-auto"
-        >
-          {/* Bio Section */}
-          <motion.div variants={itemVariants} className="mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold font-mono mb-6 text-accent-primary text-glow-green">
-              About Me
+    <section id="intro" ref={sectionRef} className="relative py-32 bg-bg-primary border-t border-white/5 overflow-hidden">
+      <div className="absolute inset-0 bg-noise pointer-events-none" />
+      
+      <div className="container mx-auto px-6 md:px-12 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
+          
+          {/* Left Column - Bio */}
+          <div className="lg:col-span-7">
+            <span className="text-xs font-mono text-accent-primary mb-6 block tracking-widest">
+              // ABOUT_PROFILE
+            </span>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 leading-tight uppercase font-mono tracking-tighter">
+              Analytical<br/>
+              <span className="text-white/40">Results-Driven</span><br/>
+              Collaborative
             </h2>
-            <p className="text-lg md:text-xl text-text-secondary leading-relaxed font-sans mb-4">
-              An analytical, results-driven and collaborative software developer with
-              experience providing strategic support and guidance at all levels of the
-              software development lifecycle.
-            </p>
-            <p className="text-lg md:text-xl text-text-secondary leading-relaxed font-sans">
-              With 5+ years of experience as a Senior Software Engineer, I specialize in
-              Full-Stack JavaScript applications, Front-End (React & Web3), Back-End
-              (NodeJS), and relational and non-relational databases. I'm passionate about
-              building scalable solutions and leading teams toward innovative solutions.
-            </p>
-          </motion.div>
+            <div className="font-mono text-sm md:text-base text-white/60 space-y-6 leading-relaxed max-w-2xl border-l border-white/10 pl-6">
+              <p>
+                Senior Software Engineer with 5+ years of experience specializing in high-performance Full-Stack JavaScript applications. 
+                Expert in architecting scalable systems using React, Node.js, and Cloud Infrastructure.
+              </p>
+              <p>
+                Passionate about bridging the gap between design and engineering, creating interactive web experiences that push boundaries.
+              </p>
+            </div>
+          </div>
 
-          {/* Stats Grid */}
-          <motion.div variants={itemVariants} className="mb-16">
-            <h3 className="text-2xl md:text-3xl font-bold font-mono mb-8 text-text-primary">
-              By The Numbers
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={
-                    hasIntersected
-                      ? { opacity: 1, scale: 1 }
-                      : { opacity: 0, scale: 0.8 }
-                  }
-                  transition={{ delay: index * 0.1 + 0.5 }}
-                  className="bg-bg-tertiary p-6 rounded-lg border border-accent-primary/20 hover:border-accent-primary/50 transition-all duration-300 hover:box-glow-green"
-                >
-                  <div className="text-3xl md:text-4xl font-bold font-mono text-accent-primary mb-2">
+          {/* Right Column - Data Grid */}
+          <div className="lg:col-span-5 flex flex-col justify-between">
+            {/* Stats */}
+            <div id="intro-stats" className="grid grid-cols-2 gap-x-8 gap-y-12 mb-16">
+              {stats.map((stat) => (
+                <div key={stat.label} className="stat-item flex flex-col border-t border-white/20 pt-4">
+                  <span className="text-4xl md:text-5xl font-mono font-bold text-white mb-2 tracking-tighter">
                     {stat.value}
-                  </div>
-                  <div className="text-sm md:text-base text-text-secondary font-sans">
+                  </span>
+                  <span className="text-[10px] font-mono text-accent-primary tracking-widest uppercase opacity-80">
                     {stat.label}
-                  </div>
-                </motion.div>
+                  </span>
+                </div>
               ))}
             </div>
-          </motion.div>
 
-          {/* Tech Stack */}
-          <motion.div variants={itemVariants}>
-            <h3 className="text-2xl md:text-3xl font-bold font-mono mb-8 text-text-primary">
-              Tech Stack
-            </h3>
-            <div className="flex flex-wrap gap-3">
-              {techStack.map((tech, index) => (
-                <motion.span
-                  key={tech}
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={
-                    hasIntersected
-                      ? { opacity: 1, scale: 1 }
-                      : { opacity: 0, scale: 0 }
-                  }
-                  transition={{
-                    delay: index * 0.05 + 0.8,
-                    type: 'spring',
-                    stiffness: 200,
-                  }}
-                  whileHover={{ scale: 1.1 }}
-                  className="px-4 py-2 bg-bg-tertiary border border-accent-secondary/30 rounded-full text-text-secondary font-mono text-sm md:text-base hover:border-accent-secondary hover:text-accent-secondary hover:box-glow-cyan transition-all duration-300 cursor-default"
-                >
-                  {tech}
-                </motion.span>
-              ))}
+            {/* Tech Stack - Raw Data Look */}
+            <div id="intro-tech">
+              <span className="text-xs font-mono text-white/30 mb-6 block tracking-widest border-b border-white/10 pb-2">
+                // SYSTEM_DEPENDENCIES
+              </span>
+              <div className="flex flex-wrap gap-2">
+                {techStack.map((tech) => (
+                  <span 
+                    key={tech} 
+                    className="tech-item px-3 py-1 bg-white/5 border border-white/5 text-[10px] md:text-xs font-mono text-white/70 hover:text-accent-primary hover:border-accent-primary/40 transition-colors cursor-default"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
             </div>
-          </motion.div>
-        </motion.div>
+          </div>
+
+        </div>
       </div>
     </section>
   )

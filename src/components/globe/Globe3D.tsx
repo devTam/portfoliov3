@@ -1,7 +1,7 @@
 'use client'
 
-import { Suspense, useRef, useCallback } from 'react'
-import { Canvas, useFrame, useLoader } from '@react-three/fiber'
+import { Suspense, useRef, useCallback, useEffect, useState } from 'react'
+import { Canvas, useFrame, useLoader, useThree } from '@react-three/fiber'
 import { OrbitControls, Sphere, Stars } from '@react-three/drei'
 import * as THREE from 'three'
 import { companies, Company } from '@/lib/data/companies'
@@ -12,16 +12,16 @@ import AnimatedBeam from './AnimatedBeam'
 interface GlobeSceneProps {
   onMarkerClick: (company: Company) => void
   selectedCompanyId: string | null
+  featuredCompanyId: string | null
+  isPaused: boolean
+  onHoverStart: () => void
+  onHoverEnd: () => void
 }
 
 function GlobeMesh() {
   const globeRef = useRef<THREE.Mesh>(null)
-  
-  // Load Earth texture from a reliable source
   const textureUrl = 'https://unpkg.com/three-globe@2.31.0/example/img/earth-day.jpg'
   const texture = useLoader(THREE.TextureLoader, textureUrl)
-  
-  // Configure texture
   texture.colorSpace = THREE.SRGBColorSpace
 
   return (
@@ -38,19 +38,64 @@ function GlobeMesh() {
 function GlobeFallback() {
   return (
     <Sphere args={[1, 64, 64]}>
-      <meshStandardMaterial
-        color="#1a3a5c"
-        roughness={0.8}
-        metalness={0.1}
-      />
+      <meshStandardMaterial color="#1a3a5c" roughness={0.8} metalness={0.1} />
     </Sphere>
   )
+}
+
+function CameraController({ 
+  targetPosition, 
+}: { 
+  targetPosition: [number, number, number] | null
+}) {
+  const { camera } = useThree()
+  const targetRef = useRef<THREE.Vector3>(new THREE.Vector3(0, 0, 2.5))
+  
+  useEffect(() => {
+    if (targetPosition) {
+      // Calculate camera position to look at the marker
+      const [x, y, z] = targetPosition
+      const markerVec = new THREE.Vector3(x, y, z).normalize()
+      // Camera should be positioned along the line from origin through marker, but further out
+      const cameraDistance = 2.8 // Increased for smaller globe appearance
+      targetRef.current = markerVec.multiplyScalar(cameraDistance)
+    }
+  }, [targetPosition])
+
+  useFrame(() => {
+    if (targetRef.current) {
+      // Smoothly interpolate camera position
+      camera.position.lerp(targetRef.current, 0.02)
+      camera.lookAt(0, 0, 0)
+    }
+  })
+
+  return null
 }
 
 function GlobeScene({
   onMarkerClick,
   selectedCompanyId,
+  featuredCompanyId,
+  isPaused,
+  onHoverStart,
+  onHoverEnd,
 }: GlobeSceneProps) {
+  // Get the featured company's position for camera
+  const featuredPosition = featuredCompanyId 
+    ? (() => {
+        const company = companies.find(c => c.id === featuredCompanyId)
+        if (company && !(company.location.coordinates.lat === 0 && company.location.coordinates.lng === 0)) {
+          return latLngToVector3(
+            company.location.coordinates.lat,
+            company.location.coordinates.lng,
+            1.0
+          )
+        }
+        return null
+      })()
+    : null
+
   return (
     <>
       {/* Lighting */}
@@ -60,6 +105,9 @@ function GlobeScene({
 
       {/* Stars background */}
       <Stars radius={300} depth={50} count={2000} factor={4} saturation={0} />
+
+      {/* Camera animation controller */}
+      <CameraController targetPosition={featuredPosition} />
 
       {/* Main globe mesh */}
       <Suspense fallback={<GlobeFallback />}>
@@ -78,7 +126,6 @@ function GlobeScene({
 
       {/* Location markers */}
       {companies.map((company) => {
-        // Skip companies with placeholder coordinates
         if (
           company.location.coordinates.lat === 0 &&
           company.location.coordinates.lng === 0
@@ -89,8 +136,11 @@ function GlobeScene({
         const position = latLngToVector3(
           company.location.coordinates.lat,
           company.location.coordinates.lng,
-          1.0 // On the surface
+          1.0
         )
+
+        const isFeatured = featuredCompanyId === company.id
+        const isSelected = selectedCompanyId === company.id
 
         return (
           <group key={company.id}>
@@ -98,9 +148,12 @@ function GlobeScene({
               position={position}
               company={company}
               onClick={() => onMarkerClick(company)}
-              isSelected={selectedCompanyId === company.id}
+              isSelected={isSelected}
+              isFeatured={isFeatured}
+              onHoverStart={onHoverStart}
+              onHoverEnd={onHoverEnd}
             />
-            {selectedCompanyId === company.id && (
+            {(isSelected || isFeatured) && (
               <AnimatedBeam
                 position={position}
                 height={0.8}
@@ -114,8 +167,8 @@ function GlobeScene({
       <OrbitControls
         enableZoom={true}
         enablePan={false}
-        minDistance={1.5}
-        maxDistance={4}
+        minDistance={1.8}
+        maxDistance={5}
         minPolarAngle={0.1}
         maxPolarAngle={Math.PI - 0.1}
         rotateSpeed={0.5}
@@ -128,11 +181,19 @@ function GlobeScene({
 interface Globe3DProps {
   onMarkerClick?: (company: Company) => void
   selectedCompanyId?: string | null
+  featuredCompanyId?: string | null
+  isPaused?: boolean
+  onHoverStart?: () => void
+  onHoverEnd?: () => void
 }
 
 export default function Globe3D({
   onMarkerClick,
   selectedCompanyId = null,
+  featuredCompanyId = null,
+  isPaused = false,
+  onHoverStart,
+  onHoverEnd,
 }: Globe3DProps) {
   const handleMarkerClick = useCallback((company: Company) => {
     if (onMarkerClick) {
@@ -140,16 +201,28 @@ export default function Globe3D({
     }
   }, [onMarkerClick])
 
+  const handleHoverStart = useCallback(() => {
+    if (onHoverStart) onHoverStart()
+  }, [onHoverStart])
+
+  const handleHoverEnd = useCallback(() => {
+    if (onHoverEnd) onHoverEnd()
+  }, [onHoverEnd])
+
   return (
     <div className="w-full h-full relative">
       <Canvas
-        camera={{ position: [0, 0, 2.5], fov: 50 }}
+        camera={{ position: [0, 0, 3], fov: 50 }}
         gl={{ antialias: true, alpha: true }}
       >
         <Suspense fallback={null}>
           <GlobeScene
             onMarkerClick={handleMarkerClick}
             selectedCompanyId={selectedCompanyId}
+            featuredCompanyId={featuredCompanyId}
+            isPaused={isPaused}
+            onHoverStart={handleHoverStart}
+            onHoverEnd={handleHoverEnd}
           />
         </Suspense>
       </Canvas>

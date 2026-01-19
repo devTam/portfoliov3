@@ -2,339 +2,167 @@
 
 import { motion } from 'framer-motion'
 import { useState, useEffect } from 'react'
+import { gsap } from 'gsap'
 
-
-function getCurrentDate() {
+function getCurrentTime() {
   const now = new Date()
-  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-  const months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ]
-  return `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`
-}
-
-const greetings = [
-  'HI THERE', // English
-  'HOLA', // Spanish
-  'SALUT', // French
-  'HALLO', // German
-  '你好', // Mandarin Chinese
-]
-
-function GlitchText() {
-  const [isHovered, setIsHovered] = useState(false)
-  const [currentGreeting, setCurrentGreeting] = useState(0)
-  const [isGlitching, setIsGlitching] = useState(false)
-
-  useEffect(() => {
-    if (!isHovered) {
-      setCurrentGreeting(0)
-      setIsGlitching(false)
-      return
-    }
-
-    let interval: NodeJS.Timeout | null = null
-    let timeout: NodeJS.Timeout | null = null
-
-    // Show first greeting immediately with glitch
-    setIsGlitching(true)
-    const firstGlitchTimeout = setTimeout(() => {
-      setCurrentGreeting(0)
-      setTimeout(() => {
-        setIsGlitching(false)
-      }, 100)
-    }, 300)
-    
-    // Then cycle through all greetings
-    timeout = setTimeout(() => {
-      interval = setInterval(() => {
-        setIsGlitching(true)
-        setTimeout(() => {
-          setCurrentGreeting((prev) => (prev + 1) % greetings.length)
-          setTimeout(() => {
-            setIsGlitching(false)
-          }, 100)
-        }, 300) // Glitch duration
-      }, 3000) // Change greeting every 3 seconds
-    }, 3300) // Start cycling after first greeting is shown
-
-    return () => {
-      clearTimeout(firstGlitchTimeout)
-      if (timeout) clearTimeout(timeout)
-      if (interval) clearInterval(interval)
-    }
-  }, [isHovered])
-
-  const displayText = isHovered ? greetings[currentGreeting] : 'TAMMY'
-
-  return (
-    <motion.span
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="inline-block cursor-default bg-gradient-to-r from-accent-primary via-accent-secondary to-accent-primary bg-clip-text text-transparent"
-      style={{
-        backgroundSize: '200% 200%',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-      }}
-      animate={
-        isGlitching
-          ? {
-              opacity: [1, 0.5, 1, 0.3, 1, 0.5, 1],
-              x: [0, -3, 3, -4, 4, -3, 0],
-              y: [0, 2, -2, 1, -1, 0, 0],
-              filter: [
-                'none',
-                'none',
-                'none',
-                'none',
-                'none',
-                'none',
-                'none',
-              ],
-              backgroundPosition: [
-                '0% 50%',
-                '100% 50%',
-                '0% 50%',
-                '100% 50%',
-                '0% 50%',
-                '100% 50%',
-                '0% 50%',
-              ],
-            }
-          : {
-              opacity: 1,
-              x: 0,
-              y: 0,
-              backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-              filter: 'none',
-            }
-      }
-      transition={{
-        duration: isGlitching ? 0.3 : 5,
-        repeat: isGlitching ? 0 : Infinity,
-        ease: isGlitching ? 'linear' : 'easeInOut',
-        times: isGlitching ? [0, 0.2, 0.4, 0.5, 0.7, 0.85, 1] : undefined,
-      }}
-    >
-      {displayText}
-    </motion.span>
-  )
+  return now.toLocaleTimeString('en-US', { hour12: false })
 }
 
 export default function Hero() {
-  const [mounted, setMounted] = useState(false)
+  const [time, setTime] = useState('')
 
   useEffect(() => {
-    setMounted(true)
+    setTime(getCurrentTime())
+    const interval = setInterval(() => {
+      setTime(getCurrentTime())
+    }, 1000)
+    return () => clearInterval(interval)
   }, [])
 
+  const handleStartClick = () => {
+    const experienceSection = document.getElementById('experience')
+    if (experienceSection) {
+      experienceSection.scrollIntoView({ behavior: 'smooth' })
+    }
+  }
 
   return (
-    <section className="relative min-h-screen flex flex-col overflow-hidden bg-bg-primary">
-      {/* Techy Background Layers */}
-      
-      {/* Grid Pattern */}
-      <div className="absolute inset-0 opacity-[0.1] pointer-events-none">
-        <div
-          className="h-full w-full"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(0, 255, 65, 0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(0, 255, 65, 0.1) 1px, transparent 1px)
-            `,
-            backgroundSize: '50px 50px',
-          }}
+    <section className="relative h-screen w-full bg-[#050505] overflow-hidden flex flex-col justify-center items-center">
+      {/* Ambient Background */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-[-20%] left-[-10%] w-[70vw] h-[70vw] bg-accent-primary/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[70vw] h-[70vw] bg-accent-secondary/5 rounded-full blur-[120px]" />
+        
+        {/* Subtle Noise Texture */}
+        <div className="absolute inset-0 opacity-[0.03]" 
+          style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")' }} 
         />
       </div>
 
-      {/* Hexagonal Pattern */}
-      <div className="absolute inset-0 opacity-[0.05] pointer-events-none">
-        <div
-          className="h-full w-full"
-          style={{
-            backgroundImage: `
-              repeating-linear-gradient(
-                30deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 255, 65, 0.1) 2px,
-                rgba(0, 255, 65, 0.1) 4px
-              ),
-              repeating-linear-gradient(
-                -30deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 212, 255, 0.1) 2px,
-                rgba(0, 212, 255, 0.1) 4px
-              )
-            `,
-          }}
-        />
-      </div>
+      {/* Main Content */}
+      <div className="relative z-10 container mx-auto px-6 md:px-12 flex flex-col items-center text-center">
+        
+        {/* Role/Coordinates HUD */}
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="absolute top-12 left-6 md:left-12 flex flex-col items-start gap-1"
+        >
+          <span className="text-xs font-mono text-accent-primary/80 tracking-widest">
+            SOFTWARE ENGINEER
+          </span>
+          <span className="text-[10px] font-mono text-white/30">
+            LAT: 52.5200° N / LNG: 13.4050° E
+          </span>
+        </motion.div>
 
-      {/* Circuit Board Lines */}
-      <div className="absolute inset-0 opacity-[0.15] pointer-events-none">
-        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <pattern id="circuit" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
-              <path
-                d="M 0 50 L 100 50 M 50 0 L 50 100"
-                stroke="rgba(0, 255, 65, 0.3)"
-                strokeWidth="0.5"
-                fill="none"
-              />
-              <circle cx="50" cy="50" r="2" fill="rgba(0, 255, 65, 0.4)" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#circuit)" />
-        </svg>
-      </div>
+        {/* Time HUD */}
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.5 }}
+          className="absolute top-12 right-6 md:right-12 text-right hidden md:block"
+        >
+          <span className="text-xs font-mono text-white/50 tracking-widest block">
+            SYSTEM TIME
+          </span>
+          <span className="text-sm font-mono text-accent-primary">
+            {time}
+          </span>
+        </motion.div>
 
-      {/* Binary Code Scrolling Effect */}
-      <div className="absolute inset-0 opacity-[0.08] pointer-events-none overflow-hidden">
-        {mounted ? (
-          [...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute font-mono text-accent-primary text-xs"
-              style={{
-                left: `${(i * 5) % 100}%`,
-                top: '-20px',
-              }}
-              animate={{
-                y: ['0vh', '100vh'],
-              }}
-              transition={{
-                duration: Math.random() * 10 + 15,
-                repeat: Infinity,
-                delay: Math.random() * 5,
-                ease: 'linear',
-              }}
+        {/* Main Title - Staggered Reveal */}
+        <div className="flex flex-col items-center mt-12 md:mt-0">
+          <div className="overflow-hidden">
+            <motion.h1 
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+              className="text-[15vw] md:text-[10vw] font-bold tracking-tighter leading-[0.85] md:leading-[0.9] text-white mix-blend-difference"
             >
-              {Array.from({ length: 20 }, () =>
-                Math.random() > 0.5 ? '1' : '0'
-              ).join(' ')}
-            </motion.div>
-          ))
-        ) : null}
-      </div>
-
-      {/* Scan Lines Effect */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
-        <div
-          className="h-full w-full"
-          style={{
-            backgroundImage: `repeating-linear-gradient(
-              0deg,
-              transparent,
-              transparent 2px,
-              rgba(0, 255, 65, 0.1) 2px,
-              rgba(0, 255, 65, 0.1) 4px
-            )`,
-          }}
-        />
-      </div>
-
-      {/* Glowing Grid Points */}
-      <div className="absolute inset-0 opacity-[0.2] pointer-events-none">
-        {mounted && [...Array(50)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-accent-primary rounded-full"
-            style={{
-              left: `${(i * 7.3) % 100}%`,
-              top: `${(i * 11.7) % 100}%`,
-            }}
-            animate={{
-              opacity: [0.2, 0.8, 0.2],
-              scale: [1, 1.5, 1],
-            }}
-            transition={{
-              duration: Math.random() * 3 + 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-              ease: 'easeInOut',
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Top section - Date and location (Fixed at top) */}
-      <div className="top-0 left-0 right-0 z-50 bg-bg-primary/80 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-6 md:py-8">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8 }}
-            className="flex flex-col md:flex-row md:justify-between md:items-center gap-2 text-sm md:text-base font-mono text-text-tertiary"
-          >
-            <div>{getCurrentDate()}</div>
-            <div className="flex items-center gap-2">
-              <motion.span
-                className="text-accent-primary"
-                animate={{
-                  opacity: [1, 0.3, 1],
-                  scale: [1, 1.2, 1],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-              >
-                ●
-              </motion.span>
-              <span>Available</span>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-
-
-
-      {/* Center section - Main name with glitch effect (80% of viewport) */}
-      <div className="h-[80vh] flex items-center justify-center pt-20">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-center"
-          >
-            <motion.h1
-              initial={{ opacity: 0, clipPath: 'inset(0 100% 0 0)' }}
-              animate={{ opacity: 1, clipPath: 'inset(0 0% 0 0)' }}
-              transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="text-6xl md:text-8xl lg:text-9xl font-bold font-mono tracking-wider leading-none mb-6 relative"
-            >
-              <GlitchText />
+              TAMMY
             </motion.h1>
-            
-            {/* Subtitle */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8, ease: 'easeOut' }}
-              className="text-xl md:text-2xl lg:text-3xl font-mono text-text-secondary tracking-wide"
+          </div>
+          
+          <div className="overflow-hidden">
+            <motion.h1 
+              initial={{ y: "100%" }}
+              animate={{ y: 0 }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.35 }}
+              className="text-[15vw] md:text-[10vw] font-bold tracking-tighter leading-[0.85] md:leading-[0.9] text-transparent bg-clip-text bg-gradient-to-r from-white via-white/50 to-transparent"
             >
-              Software Engineer
-            </motion.div>
-          </motion.div>
+              PORTFOLIO
+            </motion.h1>
+          </div>
         </div>
+
+        {/* Subtitle/Description */}
+        <motion.p 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.8 }}
+          className="mt-8 text-sm md:text-base text-white/50 max-w-md font-mono leading-relaxed"
+        >
+          Crafting high-performance digital experiences with focus on motion, interactivity, and precision.
+        </motion.p>
+
+        {/* Start Button */}
+        <motion.button
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 1 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={handleStartClick}
+          className="group mt-16 px-8 py-3 bg-white/5 border border-white/10 rounded-full backdrop-blur-md hover:bg-white/10 hover:border-accent-primary/50 transition-all duration-300"
+        >
+          <span className="text-sm font-mono text-white tracking-widest group-hover:text-accent-primary transition-colors">
+            ENTER SYSTEM
+          </span>
+        </motion.button>
       </div>
 
+      {/* Bottom HUD Elements */}
+      <div className="absolute bottom-12 left-0 w-full px-6 md:px-12 flex justify-between items-end pointer-events-none">
+        
+        {/* Status */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2 }}
+          className="flex items-center gap-2"
+        >
+          <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+          <span className="text-[10px] font-mono text-white/40 tracking-widest uppercase">
+            Online Status: Active
+          </span>
+        </motion.div>
+
+        {/* Scroll Indicator */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2 }}
+          className="flex flex-col items-center gap-2"
+        >
+          <span className="text-[10px] font-mono text-white/30 tracking-widest uppercase writing-mode-vertical rotate-180">
+            SCROLL
+          </span>
+          <div className="w-[1px] h-12 bg-gradient-to-b from-white/30 to-transparent" />
+        </motion.div>
+
+        {/* Version */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2 }}
+          className="text-[10px] font-mono text-white/20"
+        >
+          v3.0.1 [BETA]
+        </motion.div>
+      </div>
     </section>
   )
 }

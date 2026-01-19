@@ -2,40 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  /* Primary Colors */
-  --bg-primary: #0a0a0a;
-  --bg-secondary: #111111;
-  --bg-tertiary: #1a1a1a;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.9);
+  }
 
-  /* Accent Colors */
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+:root {
+  /* Primary Colors - Deep Black Base */
+  --bg-primary: #050505;
+  --bg-secondary: #0a0a0a;
+  --bg-tertiary: #111111;
+
+  /* Accent Colors - Sharp & Electric */
   --accent-primary: #00ff41;
-  --accent-secondary: #00d4ff;
-  --accent-tertiary: #ff0080;
+  /* Matrix Green */
+  --accent-secondary: #00f0ff;
+  /* Cyber Blue */
+  --accent-tertiary: #bd00ff;
+  /* Neon Purple */
 
   /* Text Colors */
   --text-primary: #ffffff;
-  --text-secondary: #b3b3b3;
-  --text-tertiary: #666666;
+  --text-secondary: #888888;
+  --text-tertiary: #444444;
   --text-accent: #00ff41;
 
   /* Glow Effects */
-  --glow-green: rgba(0, 255, 65, 0.5);
-  --glow-cyan: rgba(0, 212, 255, 0.5);
-  --glow-pink: rgba(255, 0, 128, 0.5);
-
-  /* Semantic Colors */
-  --success: #00ff41;
-  --warning: #ffaa00;
-  --error: #ff0040;
-  --info: #00d4ff;
+  --glow-green: rgba(0, 255, 65, 0.4);
+  --glow-cyan: rgba(0, 240, 255, 0.4);
+  --glow-purple: rgba(189, 0, 255, 0.4);
 
   /* Globe Colors */
-  --globe-ocean: #0a1a2e;
-  --globe-land: #1a2a3a;
-  --globe-grid: rgba(0, 255, 65, 0.1);
+  --globe-ocean: #050505;
+  --globe-land: #1a1a1a;
+  --globe-grid: rgba(255, 255, 255, 0.05);
   --marker-glow: #00ff41;
-  --beam-color: #00d4ff;
+  --beam-color: #00f0ff;
 }
 
 * {
@@ -64,20 +77,20 @@ a {
 
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
+  background: var(--bg-primary);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--accent-primary);
-  border-radius: 5px;
+  background: var(--bg-tertiary);
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-secondary);
+  background: var(--accent-primary);
 }
 
 /* Selection Styling */
@@ -86,52 +99,19 @@ a {
   color: var(--bg-primary);
 }
 
-/* Scan Lines Effect (Optional) */
-.scanlines::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.15),
-    rgba(0, 0, 0, 0.15) 1px,
-    transparent 1px,
-    transparent 2px
-  );
-  z-index: 9999;
+/* Utilities */
+.bg-noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.03;
 }
 
 /* Glow Text Effect */
 .text-glow-green {
-  text-shadow: 0 0 10px var(--glow-green), 0 0 20px var(--glow-green),
-    0 0 30px var(--glow-green);
+  text-shadow: 0 0 20px var(--glow-green);
 }
 
 .text-glow-cyan {
-  text-shadow: 0 0 10px var(--glow-cyan), 0 0 20px var(--glow-cyan),
-    0 0 30px var(--glow-cyan);
-}
-
-.text-glow-pink {
-  text-shadow: 0 0 10px var(--glow-pink), 0 0 20px var(--glow-pink),
-    0 0 30px var(--glow-pink);
-}
-
-/* Glow Box Effect */
-.box-glow-green {
-  box-shadow: 0 0 20px var(--glow-green), 0 0 40px var(--glow-green);
-}
-
-.box-glow-cyan {
-  box-shadow: 0 0 20px var(--glow-cyan), 0 0 40px var(--glow-cyan);
-}
-
-.box-glow-pink {
-  box-shadow: 0 0 20px var(--glow-pink), 0 0 40px var(--glow-pink);
+  text-shadow: 0 0 20px var(--glow-cyan);
 }
 
 /* Smooth Scrolling */
@@ -139,21 +119,15 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Focus Styles */
-*:focus-visible {
-  outline: 2px solid var(--accent-primary);
-  outline-offset: 2px;
-}
-
 /* Container */
 .container {
-  max-width: 1280px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 1.5rem;
 }
 
 @media (min-width: 640px) {
   .container {
-    padding: 0 2rem;
+    padding: 0 3rem;
   }
 }

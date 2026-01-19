@@ -87,7 +87,7 @@ export const companies: Company[] = [
       city: 'Seattle',
       country: 'United States',
       countryCode: 'US',
-      coordinates: { lat: 47.6062, lng: -122.3321 },
+      coordinates: { lat: 47.65, lng: -122.40 }, // North Seattle
     },
     period: { start: '2022-01', end: '2022-03' },
     impact: [
@@ -106,7 +106,7 @@ export const companies: Company[] = [
       city: 'Seattle',
       country: 'United States',
       countryCode: 'US',
-      coordinates: { lat: 47.6062, lng: -122.3321 },
+      coordinates: { lat: 47.55, lng: -122.25 }, // South Seattle / Bellevue area
     },
     period: { start: '2021-02', end: '2021-12' },
     impact: [

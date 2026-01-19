@@ -1,19 +1,45 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import Footer from '@/components/layout/Footer'
 import Hero from '@/components/landing/Hero'
 import Intro from '@/components/landing/Intro'
-import Skills from '@/components/landing/Skills'
+import Contact from '@/components/landing/Contact'
 import GlobeSection from '@/components/globe/GlobeSection'
+import LoadingScreen from '@/components/ui/LoadingScreen'
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Prevent scrolling during loading
+  useEffect(() => {
+    if (isLoading) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isLoading])
+
   return (
     <>
-      <main className="min-h-screen bg-bg-primary">
-        <Hero />
-        <GlobeSection />
-        <Intro />
-        <Skills />
-      </main>
-      <Footer />
+      <LoadingScreen onLoadingComplete={() => setIsLoading(false)} />
+      
+      {!isLoading && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <main className="min-h-screen bg-bg-primary">
+            <Hero />
+            <GlobeSection />
+            <Intro />
+            <Contact />
+          </main>
+          <Footer />
+        </motion.div>
+      )}
     </>
   )
 }

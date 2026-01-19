@@ -1,8 +1,8 @@
 'use client'
 
-import { useRef, useState, useMemo } from 'react'
+import { useRef, useState, useMemo, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { Sphere, Cone, Text } from '@react-three/drei'
+import { Sphere, Cone, Html } from '@react-three/drei'
 import * as THREE from 'three'
 import { Company } from '@/lib/data/companies'
 
@@ -11,6 +11,47 @@ interface LocationMarkerProps {
   company: Company
   onClick: () => void
   isSelected: boolean
+  isFeatured?: boolean
+  onHoverStart?: () => void
+  onHoverEnd?: () => void
+}
+
+// Animated chatbox component (video game style)
+function HoverChatbox({ company, onClick }: { company: Company; onClick: () => void }) {
+  return (
+    <div 
+      className="select-none cursor-pointer"
+      onClick={(e) => {
+        e.stopPropagation()
+        onClick()
+      }}
+    >
+      <div className="relative animate-fadeIn hover:scale-105 transition-transform">
+        {/* Chat bubble */}
+        <div className="bg-bg-tertiary/95 backdrop-blur-sm border border-accent-primary/50 rounded-lg px-3 py-2 min-w-[140px] shadow-lg shadow-accent-primary/20 hover:border-accent-primary transition-colors">
+          {/* Typing indicator dots that appear first */}
+          <div className="flex items-center gap-1 mb-1">
+            <span className="w-1.5 h-1.5 bg-accent-primary rounded-full animate-pulse" style={{ animationDelay: '0ms' }} />
+            <span className="w-1.5 h-1.5 bg-accent-primary rounded-full animate-pulse" style={{ animationDelay: '150ms' }} />
+            <span className="w-1.5 h-1.5 bg-accent-primary rounded-full animate-pulse" style={{ animationDelay: '300ms' }} />
+          </div>
+          
+          {/* Company name */}
+          <p className="font-mono text-xs text-accent-primary font-bold tracking-wide truncate max-w-[180px]">
+            {company.name}
+          </p>
+          
+          {/* Location */}
+          <p className="font-mono text-[10px] text-text-secondary mt-0.5">
+            📍 {company.location.city}, {company.location.country}
+          </p>
+        </div>
+        
+        {/* Triangle pointer */}
+        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[8px] border-t-accent-primary/50" />
+      </div>
+    </div>
+  )
 }
 
 export default function LocationMarker({
@@ -18,6 +59,9 @@ export default function LocationMarker({
   company,
   onClick,
   isSelected,
+  isFeatured = false,
+  onHoverStart,
+  onHoverEnd,
 }: LocationMarkerProps) {
   const groupRef = useRef<THREE.Group>(null)
   const glowRef = useRef<THREE.Mesh>(null)
@@ -25,18 +69,12 @@ export default function LocationMarker({
 
   // Calculate rotation to point outward from globe center
   const rotation = useMemo(() => {
-    // Create a vector from the origin to the position
     const posVec = new THREE.Vector3(...position)
-    
-    // The pin should point outward (away from center)
-    // Default cone points along Y axis, we need to rotate it to point along the position vector
     const up = new THREE.Vector3(0, 1, 0)
     const quaternion = new THREE.Quaternion()
     quaternion.setFromUnitVectors(up, posVec.clone().normalize())
-    
     const euler = new THREE.Euler()
     euler.setFromQuaternion(quaternion)
-    
     return euler
   }, [position])
 
@@ -48,84 +86,83 @@ export default function LocationMarker({
     }
   })
 
-  const markerColor = isSelected ? '#00d4ff' : '#00ff41'
-  const baseSize = 0.04
-  const size = hovered || isSelected ? baseSize * 1.3 : baseSize
+  const markerColor = isSelected || isFeatured ? '#00d4ff' : '#00ff41'
+  const baseSize = 0.025
+  const size = hovered || isSelected || isFeatured ? baseSize * 1.4 : baseSize
+  const showChatbox = hovered || isFeatured
 
   // Position the marker slightly above the surface
   const markerPosition = useMemo(() => {
     const vec = new THREE.Vector3(...position)
-    vec.normalize().multiplyScalar(1.02) // Slightly above surface
+    vec.normalize().multiplyScalar(1.015)
     return [vec.x, vec.y, vec.z] as [number, number, number]
   }, [position])
+
+  const handlePointerOver = (e: any) => {
+    e.stopPropagation()
+    setHovered(true)
+    document.body.style.cursor = 'pointer'
+    if (onHoverStart) onHoverStart()
+  }
+
+  const handlePointerOut = () => {
+    setHovered(false)
+    document.body.style.cursor = 'auto'
+    if (onHoverEnd) onHoverEnd()
+  }
 
   return (
     <group
       ref={groupRef}
       position={markerPosition}
       rotation={rotation}
-      onClick={(e) => {
-        e.stopPropagation()
-        onClick()
-      }}
-      onPointerOver={(e) => {
-        e.stopPropagation()
-        setHovered(true)
-        document.body.style.cursor = 'pointer'
-      }}
-      onPointerOut={() => {
-        setHovered(false)
-        document.body.style.cursor = 'auto'
-      }}
+      onPointerOver={handlePointerOver}
+      onPointerOut={handlePointerOut}
     >
       {/* Pin body (cone pointing outward) */}
       <Cone
-        args={[size * 0.6, size * 2, 8]}
-        position={[0, size * 1.2, 0]}
-      >
-        <meshStandardMaterial
-          color={markerColor}
-          emissive={markerColor}
-          emissiveIntensity={0.5}
-        />
-      </Cone>
-
-      {/* Pin head (sphere on top) */}
-      <Sphere
-        args={[size * 0.8, 16, 16]}
-        position={[0, size * 2.6, 0]}
+        args={[size * 0.5, size * 1.8, 8]}
+        position={[0, size * 1, 0]}
       >
         <meshStandardMaterial
           color={markerColor}
           emissive={markerColor}
           emissiveIntensity={0.6}
         />
+      </Cone>
+
+      {/* Pin head (sphere on top) */}
+      <Sphere
+        args={[size * 0.7, 16, 16]}
+        position={[0, size * 2.2, 0]}
+      >
+        <meshStandardMaterial
+          color={markerColor}
+          emissive={markerColor}
+          emissiveIntensity={0.7}
+        />
       </Sphere>
 
       {/* Glow ring at base */}
       <mesh ref={glowRef} rotation={[Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[size * 0.8, size * 1.5, 32]} />
+        <ringGeometry args={[size * 0.6, size * 1.2, 32]} />
         <meshBasicMaterial
           color={markerColor}
           transparent
-          opacity={0.3}
+          opacity={0.4}
           side={THREE.DoubleSide}
         />
       </mesh>
 
-      {/* Hover tooltip */}
-      {hovered && (
-        <Text
+      {/* Chatbox tooltip - shown on hover OR when featured */}
+      {showChatbox && (
+        <Html
           position={[0, size * 4, 0]}
-          fontSize={0.06}
-          color="#00ff41"
-          anchorX="center"
-          anchorY="bottom"
-          outlineWidth={0.004}
-          outlineColor="#000000"
+          center
+          distanceFactor={3}
         >
-          {company.name}
-        </Text>
+          <HoverChatbox company={company} onClick={onClick} />
+        </Html>
       )}
     </group>
   )
