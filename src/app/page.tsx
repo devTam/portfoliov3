@@ -8,6 +8,7 @@ import Intro from '@/components/landing/Intro'
 import Contact from '@/components/landing/Contact'
 import GlobeSection from '@/components/globe/GlobeSection'
 import LoadingScreen from '@/components/ui/LoadingScreen'
+import AIAssistant from '@/components/ai/AIAssistant'
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true)
@@ -36,6 +37,7 @@ export default function Home() {
             <GlobeSection />
             <Intro />
             <Contact />
+            <AIAssistant />
           </main>
           <Footer />
         </motion.div>
