@@ -138,7 +138,7 @@ export default function AIAssistant() {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-24 right-6 z-50 w-[90vw] md:w-[400px] h-[500px] bg-black/90 border border-white/10 backdrop-blur-xl flex flex-col shadow-2xl overflow-hidden rounded-lg"
+            className="fixed bottom-24 right-4 md:right-6 z-50 w-[calc(100vw-2rem)] md:w-[400px] h-[58vh] md:h-[500px] bg-black/90 border border-white/10 backdrop-blur-xl flex flex-col shadow-2xl overflow-hidden rounded-lg"
           >
             <div className="absolute inset-0 bg-noise opacity-[0.05] pointer-events-none" />
             <div className="absolute inset-0 pointer-events-none border border-accent-primary/20 m-1 rounded" />

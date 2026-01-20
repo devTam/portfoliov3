@@ -172,7 +172,7 @@ export default function GlobeSection() {
             onHoverEnd={handleHoverEnd}
           />
           
-          <div className="absolute bottom-6 left-0 w-full px-6 md:px-12 flex justify-between items-end pointer-events-none">
+          <div className="absolute bottom-6 left-0 w-full px-6 md:px-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6 md:gap-0 pointer-events-none">
             
             <div className="pointer-events-auto">
               <AnimatePresence mode="wait">
@@ -198,7 +198,7 @@ export default function GlobeSection() {
               </AnimatePresence>
             </div>
 
-            <div className="flex flex-col items-end gap-4 pointer-events-auto">
+            <div className="flex flex-col items-start md:items-end gap-4 pointer-events-auto w-full md:w-auto">
               <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md p-2 rounded-lg border border-white/10">
                 <button
                   onClick={handlePrev}
@@ -232,7 +232,7 @@ export default function GlobeSection() {
                 </button>
               </div>
 
-              <div className="w-48 h-[2px] bg-white/10 overflow-hidden relative">
+              <div className="w-full md:w-48 h-[2px] bg-white/10 overflow-hidden relative">
                 <motion.div 
                   className="absolute top-0 left-0 h-full bg-accent-primary"
                   initial={{ width: 0 }}

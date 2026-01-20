@@ -43,12 +43,12 @@ export default function Hero() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="absolute top-12 left-6 md:left-12 flex flex-col items-start gap-1"
+          className="absolute top-8 md:top-12 left-6 md:left-12 flex flex-col items-start gap-1"
         >
           <span className="text-xs font-mono text-accent-primary/80 tracking-widest">
             SOFTWARE ENGINEER
           </span>
-          <span className="text-[10px] font-mono text-white/30">
+          <span className="text-[10px] font-mono text-white/30 hidden md:block">
             LAT: 52.5200° N / LNG: 13.4050° E
           </span>
         </motion.div>
@@ -67,7 +67,7 @@ export default function Hero() {
           </span>
         </motion.div>
 
-        <div className="flex flex-col items-center mt-12 md:mt-0">
+        <div className="flex flex-col items-center mt-24 md:mt-0">
           <div className="overflow-hidden">
             <motion.h1 
               initial={{ y: "100%" }}
