@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import Image from 'next/image'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 
 interface Message {
   id: string
@@ -90,15 +90,17 @@ export default function AIAssistant() {
     }
   }
 
+  const shouldReduceMotion = useReducedMotion()
+
   return (
     <>
       <div className="fixed bottom-6 right-6 z-50 flex items-center gap-4">
         <AnimatePresence>
           {!isOpen && (
             <motion.div 
-              initial={{ opacity: 0, x: 20 }}
+              initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 10 }}
+              exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: 10 }}
               className="hidden md:flex items-center gap-2 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-sm border border-accent-primary/20 shadow-[0_0_15px_rgba(34,197,94,0.1)]"
             >
               <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
@@ -112,8 +114,8 @@ export default function AIAssistant() {
         <motion.button
           aria-label="Open AI Assistant"
           className="relative w-20 h-20 rounded-full bg-black/90 border-2 border-accent-primary/60 backdrop-blur-md flex items-center justify-center group hover:border-accent-primary hover:shadow-[0_0_30px_rgba(34,197,94,0.3)] transition-all duration-300 overflow-hidden"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          whileHover={shouldReduceMotion ? {} : { scale: 1.05 }}
+          whileTap={shouldReduceMotion ? {} : { scale: 0.95 }}
           onClick={() => setIsOpen(true)}
         >
           {!isOpen && (
@@ -135,12 +137,14 @@ export default function AIAssistant() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0.95 }}
             className="fixed bottom-24 right-4 md:right-6 z-50 w-[calc(100vw-2rem)] md:w-[400px] h-[58vh] md:h-[500px] bg-black/90 border border-white/10 backdrop-blur-xl flex flex-col shadow-2xl overflow-hidden rounded-lg"
           >
-            <div className="absolute inset-0 bg-noise opacity-[0.05] pointer-events-none" />
+            <div className="absolute inset-0 opacity-[0.05] pointer-events-none" 
+              style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")' }}
+            />
             <div className="absolute inset-0 pointer-events-none border border-accent-primary/20 m-1 rounded" />
 
             <div className="relative z-10 p-4 border-b border-white/10 flex justify-between items-center bg-white/5">

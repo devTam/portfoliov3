@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { motion, useReducedMotion } from 'framer-motion'
 import GlitchText from '@/components/ui/GlitchText'
 
 if (typeof window !== 'undefined') {
@@ -10,7 +11,7 @@ if (typeof window !== 'undefined') {
 }
 
 const stats = [
-  { label: 'YEARS ESP', value: '06' },
+  { label: 'YEARS EXP', value: '06' },
   { label: 'COMPANIES', value: '07' },
   { label: 'PROJECTS', value: '50+' },
   { label: 'STACK_SIZE', value: '20+' },
@@ -24,9 +25,10 @@ const techStack = [
 
 export default function Intro() {
   const sectionRef = useRef<HTMLElement>(null)
+  const shouldReduceMotion = useReducedMotion()
   
   useEffect(() => {
-    if (!sectionRef.current) return
+    if (!sectionRef.current || shouldReduceMotion) return
     
     // Animate stats
     const ctx = gsap.context(() => {
@@ -52,11 +54,13 @@ export default function Intro() {
     }, sectionRef)
 
     return () => ctx.revert()
-  }, [])
+  }, [shouldReduceMotion])
 
   return (
     <section id="intro" ref={sectionRef} className="relative py-32 bg-bg-primary border-t border-white/5 overflow-hidden">
-      <div className="absolute inset-0 bg-noise pointer-events-none" />
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+        style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")' }}
+      />
       
       <div className="container mx-auto px-6 md:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
@@ -84,7 +88,7 @@ export default function Intro() {
           <div className="lg:col-span-5 flex flex-col justify-between">
             <div id="intro-stats" className="grid grid-cols-2 gap-x-8 gap-y-12 mb-16">
               {stats.map((stat) => (
-                <div key={stat.label} className="stat-item flex flex-col border-t border-white/20 pt-4">
+                <div key={stat.label} className="stat-item flex flex-col border-t border-white/20 pt-4 will-change-transform">
                   <span className="text-4xl md:text-5xl font-mono font-bold text-white mb-2 tracking-tighter">
                     {stat.value}
                   </span>
@@ -95,7 +99,7 @@ export default function Intro() {
               ))}
             </div>
 
-            <div id="intro-tech">
+            <div id="intro-tech" className="will-change-transform">
               <span className="text-xs font-mono text-white/30 mb-6 block tracking-widest border-b border-white/10 pb-2">
                 SYSTEM_DEPENDENCIES
               </span>
@@ -103,7 +107,7 @@ export default function Intro() {
                 {techStack.map((tech) => (
                   <span 
                     key={tech} 
-                    className="tech-item px-3 py-1 bg-white/5 border border-white/5 text-[10px] md:text-xs font-mono text-white/70 hover:text-accent-primary hover:border-accent-primary/40 transition-colors cursor-default"
+                    className="tech-item px-3 py-1 bg-white/5 border border-white/5 text-[10px] md:text-xs font-mono text-white/70 hover:text-accent-primary hover:border-accent-primary/40 transition-colors cursor-default will-change-transform"
                   >
                     {tech}
                   </span>

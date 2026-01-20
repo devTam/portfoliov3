@@ -1,18 +1,22 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import Magnetic from '@/components/ui/Magnetic'
 import MorphingText from '@/components/ui/MorphingText'
 
 export default function Contact() {
+  const shouldReduceMotion = useReducedMotion()
+
   return (
     <section className="relative py-32 overflow-hidden">
       <div className="absolute inset-0 bg-black" />
-      <div className="absolute inset-0 bg-noise opacity-[0.03]" />
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+        style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")' }}
+      />
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-20">
+          <div className="text-center mb-20 will-change-transform">
             <div className="flex items-center justify-center gap-2 mb-4">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
               <span className="text-accent-primary font-mono text-xs tracking-[0.2em]">UPLINK SECURE</span>
@@ -38,9 +42,9 @@ export default function Contact() {
                 href="mailto:tammy.batubo@gmail.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.02, backgroundColor: 'rgba(255, 255, 255, 0.08)' }}
-                whileTap={{ scale: 0.98 }}
-                className="group relative p-8 bg-white/5 border border-white/10 hover:border-accent-primary/50 transition-all duration-300 overflow-hidden block rounded-sm"
+                whileHover={shouldReduceMotion ? {} : { scale: 1.02, backgroundColor: 'rgba(255, 255, 255, 0.08)' }}
+                whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
+                className="group relative p-8 bg-white/5 border border-white/10 hover:border-accent-primary/50 transition-all duration-300 overflow-hidden block rounded-sm will-change-transform"
               >
                 <div className="absolute top-0 right-0 p-4 opacity-50 group-hover:opacity-100 transition-opacity">
                   <span className="text-xs font-mono text-accent-primary">[EMAIL_PROTOCOL]</span>
@@ -63,9 +67,9 @@ export default function Contact() {
                 href="https://www.linkedin.com/in/tammybatubo/"
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.02, backgroundColor: 'rgba(255, 255, 255, 0.08)' }}
-                whileTap={{ scale: 0.98 }}
-                className="group relative p-8 bg-white/5 border border-white/10 hover:border-accent-secondary/50 transition-all duration-300 overflow-hidden block rounded-sm"
+                whileHover={shouldReduceMotion ? {} : { scale: 1.02, backgroundColor: 'rgba(255, 255, 255, 0.08)' }}
+                whileTap={shouldReduceMotion ? {} : { scale: 0.98 }}
+                className="group relative p-8 bg-white/5 border border-white/10 hover:border-accent-secondary/50 transition-all duration-300 overflow-hidden block rounded-sm will-change-transform"
               >
                 <div className="absolute top-0 right-0 p-4 opacity-50 group-hover:opacity-100 transition-opacity">
                   <span className="text-xs font-mono text-accent-secondary">[LINKEDIN_NET]</span>

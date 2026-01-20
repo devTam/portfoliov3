@@ -4,23 +4,23 @@ import './globals.css'
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
-  weight: ['400', '500', '700'],
+  weight: ['400', '700'],
   display: 'swap',
   variable: '--font-mono',
 })
 
 const inter = Inter({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
+  weight: ['400', '500', '700'],
   display: 'swap',
   variable: '--font-sans',
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://tammybatubo.com'),
+  metadataBase: new URL('https://tammybatubo.online'),
   title: 'Tammy Inoma-Batubo | Senior Software Engineer Portfolio',
   description:
-    '5+ years of experience in full-stack development. Specialized in React, TypeScript, Node.js, and Web3. Available for freelance and team opportunities.',
+    '6+ years of experience in full-stack development. Specialized in React, TypeScript, Node.js, and Web3. Available for freelance and team opportunities.',
   keywords: [
     'software engineer',
     'full-stack developer',
@@ -31,16 +31,16 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'Tammy Inoma-Batubo | Senior Software Engineer',
-    description: 'Portfolio showcasing 5+ years of software development experience',
+    description: 'Portfolio showcasing 6+ years of software development experience',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Tammy Inoma-Batubo | Senior Software Engineer',
-    description: 'Portfolio showcasing 5+ years of software development experience',
+    description: 'Portfolio showcasing 6+ years of software development experience',
   },
   icons: {
-    icon: '/ai-avatar.jpg',
+    icon: '/favicon.ico',
   },
 }
 

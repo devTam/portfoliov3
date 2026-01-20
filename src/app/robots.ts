@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/private/',
     },
-    sitemap: 'https://tammybatubo.com/sitemap.xml',
+    sitemap: 'https://tammybatubo.online/sitemap.xml',
   }
 }

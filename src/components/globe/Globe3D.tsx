@@ -26,7 +26,7 @@ function GlobeMesh() {
   texture.colorSpace = THREE.SRGBColorSpace
 
   return (
-    <Sphere ref={globeRef} args={[1, 64, 64]}>
+    <Sphere ref={globeRef} args={[1, 32, 32]}>
       <meshStandardMaterial
         map={texture}
         roughness={0.8}
@@ -38,7 +38,7 @@ function GlobeMesh() {
 
 function GlobeFallback() {
   return (
-    <Sphere args={[1, 64, 64]}>
+    <Sphere args={[1, 32, 32]}>
       <meshStandardMaterial color="#1a3a5c" roughness={0.8} metalness={0.1} />
     </Sphere>
   )
@@ -215,7 +215,12 @@ export default function Globe3D({
     <div className="w-full h-full relative">
       <Canvas
         camera={{ position: [0, 0, 3], fov: 50 }}
-        gl={{ antialias: true, alpha: true }}
+        dpr={window.devicePixelRatio > 1 ? [1, 2] : 1}
+        gl={{ 
+          antialias: true, 
+          alpha: true,
+          powerPreference: "high-performance"
+        }}
       >
         <Suspense fallback={null}>
           <GlobeScene
