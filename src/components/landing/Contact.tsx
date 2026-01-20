@@ -18,10 +18,10 @@ export default function Contact() {
               <span className="text-accent-primary font-mono text-xs tracking-[0.2em]">UPLINK SECURE</span>
             </div>
             
-            <div className="h-24 md:h-32 mb-6 flex items-center justify-center">
+            <div className="h-32 md:h-32 mb-6 flex items-center justify-center">
               <MorphingText 
                 text="INITIATE TRANSMISSION"
-                className="text-5xl md:text-7xl font-bold text-white tracking-tight text-center"
+                className="text-4xl md:text-7xl font-bold text-white tracking-tight text-center max-w-[12ch] md:max-w-none mx-auto"
                 duration={4}
               />
             </div>

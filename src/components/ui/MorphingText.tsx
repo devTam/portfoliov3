@@ -53,16 +53,22 @@ export default function MorphingText({
           const revealPosition = progress * totalLength
           const revealLength = Math.floor(revealPosition)
           
-          let result = finalText.substring(0, revealLength)
+          let result = ""
           
-          if (revealLength < totalLength) {
-            // Morphing the current character
-            result += CHARS[Math.floor(Math.random() * CHARS.length)]
-            
-            // Remaining characters as placeholders (maintains layout)
-            const remaining = totalLength - revealLength - 1
-            if (remaining > 0) {
-              result += "_".repeat(remaining)
+          for (let i = 0; i < totalLength; i++) {
+            if (i < revealLength) {
+              // Character is fully revealed
+              result += finalText[i]
+            } else if (i === revealLength) {
+              // Current character being morphed (unless it's a space)
+              if (finalText[i] === " ") {
+                result += " "
+              } else {
+                result += CHARS[Math.floor(Math.random() * CHARS.length)]
+              }
+            } else {
+              // Not reached yet - preserve spaces, underscore for others
+              result += finalText[i] === " " ? " " : "_"
             }
           }
           
@@ -81,8 +87,8 @@ export default function MorphingText({
       className={`font-mono opacity-0 ${className}`}
       aria-label={text}
     >
-      {/* Initial render with underscores to reserve space/prevent layout shift */}
-      {text.replace(/./g, '_')} 
+      {/* Initial render: preserve spaces, use underscores for characters */}
+      {text.split('').map(char => (char === ' ' ? ' ' : '_')).join('')} 
     </div>
   )
 }
