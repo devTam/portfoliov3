@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { motion, useReducedMotion } from 'framer-motion'
+import { useReducedMotion } from 'framer-motion'
 import GlitchText from '@/components/ui/GlitchText'
 
 if (typeof window !== 'undefined') {
