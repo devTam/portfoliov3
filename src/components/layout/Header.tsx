@@ -10,7 +10,6 @@ export default function Header() {
     <header className="relative z-50 bg-bg-secondary/80 backdrop-blur-sm border-b border-accent-primary/20">
       <nav className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo */}
           <Link
             href="/"
             className="text-xl font-mono font-bold text-accent-primary text-glow-green hover:text-accent-secondary transition-colors"
@@ -18,7 +17,6 @@ export default function Header() {
             {'<TB />'}
           </Link>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <Link
               href="#about"
@@ -46,7 +44,6 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
           <button
             className="md:hidden text-accent-primary"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -70,7 +67,6 @@ export default function Header() {
           </button>
         </div>
 
-        {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="md:hidden mt-4 pb-4 space-y-4">
             <Link

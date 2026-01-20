@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://tammy-portfolio.com' // Replace with actual domain
+  const baseUrl = 'https://tammybatubo.com'
 
   return [
     {
@@ -10,6 +10,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 1,
     },
-    // Add more routes if multiple pages exist
   ]
 }

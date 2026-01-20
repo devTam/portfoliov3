@@ -31,7 +31,6 @@ export default function LocationModal({
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -40,7 +39,6 @@ export default function LocationModal({
             className="fixed inset-0 bg-bg-primary/80 backdrop-blur-sm z-50"
           />
 
-          {/* Modal */}
           <motion.div
             initial={{ opacity: 0, x: '100%' }}
             animate={{ opacity: 1, x: 0 }}
@@ -49,7 +47,6 @@ export default function LocationModal({
             className="fixed right-0 top-0 h-full w-full max-w-md bg-bg-secondary border-l border-accent-primary/20 z-50 overflow-y-auto"
           >
             <div className="p-6">
-              {/* Header */}
               <div className="flex justify-between items-start mb-6">
                 <div>
                   <h2 className="text-2xl font-bold font-mono text-accent-primary mb-2">
@@ -68,7 +65,6 @@ export default function LocationModal({
                 </button>
               </div>
 
-              {/* Location */}
               <div className="mb-6">
                 <div className="flex items-center gap-2 text-text-secondary font-mono text-sm mb-2">
                   <span className="text-accent-primary">📍</span>
@@ -85,7 +81,6 @@ export default function LocationModal({
                 </div>
               </div>
 
-              {/* Impact */}
               <div className="mb-6">
                 <h3 className="text-lg font-bold font-mono text-text-primary mb-3">
                   Key Achievements
@@ -103,7 +98,6 @@ export default function LocationModal({
                 </ul>
               </div>
 
-              {/* Technologies */}
               <div>
                 <h3 className="text-lg font-bold font-mono text-text-primary mb-3">
                   Technologies

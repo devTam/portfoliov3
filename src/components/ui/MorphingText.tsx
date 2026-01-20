@@ -49,19 +49,21 @@ export default function MorphingText({
         ease: "power2.out",
         onUpdate: function() {
           const progress = this.progress()
-          const revealLength = Math.floor(progress * finalText.length)
+          const totalLength = finalText.length
+          const revealPosition = progress * totalLength
+          const revealLength = Math.floor(revealPosition)
           
           let result = finalText.substring(0, revealLength)
           
-          // Add random chars for the rest, but taper them off
-          const remaining = finalText.length - revealLength
-          for (let i = 0; i < remaining; i++) {
-             // 50% chance to show a random char, else space (to give a typing feel)
-             if (Math.random() > 0.1) {
-                result += CHARS[Math.floor(Math.random() * CHARS.length)]
-             } else {
-                result += " "
-             }
+          if (revealLength < totalLength) {
+            // Morphing the current character
+            result += CHARS[Math.floor(Math.random() * CHARS.length)]
+            
+            // Remaining characters as placeholders (maintains layout)
+            const remaining = totalLength - revealLength - 1
+            if (remaining > 0) {
+              result += "_".repeat(remaining)
+            }
           }
           
           element.innerText = result
@@ -76,7 +78,7 @@ export default function MorphingText({
   return (
     <div 
       ref={textRef} 
-      className={`font-mono opacity-0 ${className}`} // Start invisible
+      className={`font-mono opacity-0 ${className}`}
       aria-label={text}
     >
       {/* Initial render with underscores to reserve space/prevent layout shift */}

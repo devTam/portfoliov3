@@ -14,7 +14,6 @@ export default function GlitchText({ text, className = "" }: { text: string, cla
     >
       <span className="relative z-10">{text}</span>
       
-      {/* Glitch Layers */}
       <motion.span
         className="absolute top-0 left-0 -z-10 opacity-0 text-accent-primary"
         animate={isHovered ? {

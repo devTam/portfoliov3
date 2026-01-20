@@ -9,7 +9,6 @@ import Globe3D from './Globe3D'
 import LocationModal from './LocationModal'
 import { companies, Company } from '@/lib/data/companies'
 
-// Register GSAP plugins
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
 }
@@ -34,10 +33,8 @@ export default function GlobeSection() {
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
   const pauseTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-  // Get the currently featured company
   const featuredCompany = tourCompanies[featuredIndex] || null
 
-  // Auto-tour timer
   useEffect(() => {
     if (isPaused || isModalOpen || !isAutoMode) {
       if (intervalRef.current) {
@@ -58,7 +55,6 @@ export default function GlobeSection() {
     }
   }, [isPaused, isModalOpen, isAutoMode])
 
-  // Cleanup pause timeout on unmount
   useEffect(() => {
     return () => {
       if (pauseTimeoutRef.current) {
@@ -119,7 +115,6 @@ export default function GlobeSection() {
     setIsPaused(false)
   }, [])
 
-  // Refs for elements
   const sectionRef = useRef<HTMLElement>(null)
   const globeContainerRef = useRef<HTMLDivElement>(null)
 
@@ -129,12 +124,10 @@ export default function GlobeSection() {
       id="experience"
       className="relative min-h-screen py-32 bg-bg-primary overflow-hidden"
     >
-      {/* Background Noise & Glow */}
       <div className="absolute inset-0 bg-noise pointer-events-none" />
       <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-accent-primary/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="container mx-auto px-6 md:px-12 relative z-10">
-        {/* Section Header */}
         <div className="flex flex-col mb-16 px-4 border-l border-white/10 pl-8">
           <motion.h2 
              initial={{ opacity: 0, x: -20 }}
@@ -155,17 +148,13 @@ export default function GlobeSection() {
           </motion.p>
         </div>
 
-        {/* Globe Container with visual zoom boundary */}
         <div ref={globeContainerRef} className="relative w-full h-[500px] md:h-[700px] border-t border-b border-white/5 bg-black/20">
-          {/* Zoom area indicator - corner brackets only */}
           <div className="absolute inset-0 pointer-events-none z-10">
-            {/* Corner brackets for modern look */}
             <div className="absolute top-0 left-0 w-8 h-8 border-t border-l border-white/20" />
             <div className="absolute top-0 right-0 w-8 h-8 border-t border-r border-white/20" />
             <div className="absolute bottom-0 left-0 w-8 h-8 border-b border-l border-white/20" />
             <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-white/20" />
             
-            {/* Zoom hint label */}
             <div className="absolute top-4 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-1.5 bg-black/40 backdrop-blur-md rounded-full border border-white/10">
               <span className="w-1.5 h-1.5 bg-accent-primary rounded-full animate-pulse" />
               <span className="text-[10px] font-mono text-white/60 uppercase tracking-widest">
@@ -183,10 +172,8 @@ export default function GlobeSection() {
             onHoverEnd={handleHoverEnd}
           />
           
-          {/* HUD Controls */}
           <div className="absolute bottom-6 left-0 w-full px-6 md:px-12 flex justify-between items-end pointer-events-none">
             
-            {/* Current Company Info - HUD Style */}
             <div className="pointer-events-auto">
               <AnimatePresence mode="wait">
                 {featuredCompany && (
@@ -211,7 +198,6 @@ export default function GlobeSection() {
               </AnimatePresence>
             </div>
 
-            {/* Navigation Controls - HUD Buttons */}
             <div className="flex flex-col items-end gap-4 pointer-events-auto">
               <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md p-2 rounded-lg border border-white/10">
                 <button
@@ -246,7 +232,6 @@ export default function GlobeSection() {
                 </button>
               </div>
 
-              {/* Progress Bar */}
               <div className="w-48 h-[2px] bg-white/10 overflow-hidden relative">
                 <motion.div 
                   className="absolute top-0 left-0 h-full bg-accent-primary"
@@ -263,7 +248,6 @@ export default function GlobeSection() {
         </div>
       </div>
 
-      {/* Location Modal */}
       <LocationModal
         company={selectedCompany}
         isOpen={isModalOpen}

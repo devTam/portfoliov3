@@ -7,13 +7,11 @@ export default function Footer() {
 
   return (
     <footer className="bg-bg-primary border-t border-white/5 py-12 relative overflow-hidden">
-      {/* Background Noise */}
       <div className="absolute inset-0 bg-noise pointer-events-none" />
       
       <div className="container mx-auto px-6 md:px-12 relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-8">
           
-          {/* Brand / Status */}
           <div className="flex flex-col gap-4">
             <h3 className="text-xl font-bold font-mono text-white tracking-tighter">
               TAMMY INOMA-BATUBO
@@ -25,7 +23,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Links */}
           <div className="flex flex-col md:items-end gap-2">
             <nav className="flex gap-6 mb-4">
               <Link 

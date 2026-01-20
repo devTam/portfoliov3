@@ -28,21 +28,17 @@ export default function Hero() {
 
   return (
     <section className="relative h-screen w-full bg-[#050505] overflow-hidden flex flex-col justify-center items-center">
-      {/* Ambient Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-[-20%] left-[-10%] w-[70vw] h-[70vw] bg-accent-primary/5 rounded-full blur-[120px]" />
         <div className="absolute bottom-[-20%] right-[-10%] w-[70vw] h-[70vw] bg-accent-secondary/5 rounded-full blur-[120px]" />
         
-        {/* Subtle Noise Texture */}
         <div className="absolute inset-0 opacity-[0.03]" 
           style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")' }} 
         />
       </div>
 
-      {/* Main Content */}
       <div className="relative z-10 container mx-auto px-6 md:px-12 flex flex-col items-center text-center">
         
-        {/* Role/Coordinates HUD */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -57,7 +53,6 @@ export default function Hero() {
           </span>
         </motion.div>
 
-        {/* Time HUD */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -72,7 +67,6 @@ export default function Hero() {
           </span>
         </motion.div>
 
-        {/* Main Title - Staggered Reveal */}
         <div className="flex flex-col items-center mt-12 md:mt-0">
           <div className="overflow-hidden">
             <motion.h1 
@@ -97,7 +91,6 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Subtitle/Description */}
         <motion.p 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -107,7 +100,6 @@ export default function Hero() {
           Crafting high-performance digital experiences with focus on motion, interactivity, and precision.
         </motion.p>
 
-        {/* Start Button */}
         <motion.button
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -123,10 +115,8 @@ export default function Hero() {
         </motion.button>
       </div>
 
-      {/* Bottom HUD Elements */}
       <div className="absolute bottom-12 left-0 w-full px-6 md:px-12 flex justify-between items-end pointer-events-none">
         
-        {/* Status */}
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -139,7 +129,6 @@ export default function Hero() {
           </span>
         </motion.div>
 
-        {/* Scroll Indicator */}
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -152,7 +141,6 @@ export default function Hero() {
           <div className="w-[1px] h-12 bg-gradient-to-b from-white/30 to-transparent" />
         </motion.div>
 
-        {/* Version */}
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

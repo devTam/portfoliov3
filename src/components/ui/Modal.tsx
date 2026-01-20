@@ -43,10 +43,8 @@ export default function Modal({
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       onClick={onClose}
     >
-      {/* Backdrop */}
       <div className="absolute inset-0 bg-bg-primary/80 backdrop-blur-sm" />
 
-      {/* Modal Content */}
       <div
         className={clsx(
           'relative bg-bg-tertiary border border-accent-primary/40 rounded-lg shadow-glow-green max-w-2xl w-full max-h-[90vh] overflow-y-auto',
@@ -54,7 +52,6 @@ export default function Modal({
         )}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
         {title && (
           <div className="flex items-center justify-between p-6 border-b border-accent-primary/20">
             <h2 className="text-xl font-mono font-bold text-accent-primary">
@@ -80,7 +77,6 @@ export default function Modal({
           </div>
         )}
 
-        {/* Content */}
         <div className="p-6">{children}</div>
       </div>
     </div>

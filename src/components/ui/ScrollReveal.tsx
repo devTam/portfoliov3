@@ -4,7 +4,6 @@ import { useEffect, useRef, ReactNode } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-// Register GSAP plugins
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
 }
@@ -35,7 +34,6 @@ export default function ScrollReveal({
 
     const element = containerRef.current
     
-    // Initial state based on animation type
     const initialState: gsap.TweenVars = {
       opacity: 0,
     }
@@ -68,14 +66,12 @@ export default function ScrollReveal({
         break
     }
 
-    // Set initial state
     if (staggerChildren) {
       gsap.set(element.children, initialState)
     } else {
       gsap.set(element, initialState)
     }
 
-    // Create scroll trigger animation
     const ctx = gsap.context(() => {
       if (staggerChildren) {
         gsap.to(element.children, {

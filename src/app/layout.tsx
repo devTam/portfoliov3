@@ -17,7 +17,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://tammy-portfolio.com'), // Replace with actual domain
+  metadataBase: new URL('https://tammybatubo.com'),
   title: 'Tammy Inoma-Batubo | Senior Software Engineer Portfolio',
   description:
     '5+ years of experience in full-stack development. Specialized in React, TypeScript, Node.js, and Web3. Available for freelance and team opportunities.',

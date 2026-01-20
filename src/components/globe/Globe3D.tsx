@@ -1,7 +1,7 @@
 'use client'
 
 import { Suspense, useRef, useCallback, useEffect } from 'react'
-import { useFrame, useLoader, useThree, Canvas } from '@react-three/fiber'
+import { useLoader, useThree, Canvas } from '@react-three/fiber'
 import { OrbitControls, Sphere, Stars } from '@react-three/drei'
 import * as THREE from 'three'
 import { gsap } from 'gsap'
@@ -50,15 +50,13 @@ function CameraController({
   targetPosition: [number, number, number] | null
 }) {
   const { camera } = useThree()
-  // targetRef removed as we animate directly in useEffect
   
   useEffect(() => {
     if (targetPosition) {
       // Calculate camera position to look at the marker
       const [x, y, z] = targetPosition
       const markerVec = new THREE.Vector3(x, y, z).normalize()
-      // Camera should be positioned along the line from origin through marker, but further out
-      const cameraDistance = 2.8 // Increased for smaller globe appearance
+      const cameraDistance = 2.8 
       const targetPos = markerVec.multiplyScalar(cameraDistance)
       
       gsap.to(camera.position, {

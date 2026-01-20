@@ -12,13 +12,11 @@ export async function POST(req: Request) {
     const { messages } = await req.json()
     const latestMessage = messages[messages.length - 1].content
 
-    // 1. Check Static Cache first (Cost: $0)
     const cachedResponse = checkStaticCache(latestMessage)
     if (cachedResponse) {
       return NextResponse.json({ role: 'assistant', content: cachedResponse })
     }
 
-    // Use Mock response if no API key is present (Safety Fallback)
     if (!process.env.OPENAI_API_KEY) {
        return NextResponse.json({ 
          role: 'assistant', 
@@ -27,7 +25,7 @@ export async function POST(req: Request) {
     }
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o-mini",
       messages: [
         { role: "system", content: PORTFOLIO_CONTEXT },
         ...messages.map((m: { role: string, content: string }) => ({
@@ -35,7 +33,7 @@ export async function POST(req: Request) {
              content: m.content
         }))
       ],
-      temperature: 0.7,
+      temperature: 0.4,
       max_tokens: 300,
     })
 

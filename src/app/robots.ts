@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: '/private/',
     },
-    sitemap: 'https://tammy-portfolio.com/sitemap.xml', // Replace with actual domain
+    sitemap: 'https://tammybatubo.com/sitemap.xml',
   }
 }

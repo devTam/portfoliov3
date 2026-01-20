@@ -19,31 +19,22 @@
 }
 
 :root {
-  /* Primary Colors - Deep Black Base */
   --bg-primary: #050505;
   --bg-secondary: #0a0a0a;
   --bg-tertiary: #111111;
 
-  /* Accent Colors - Sharp & Electric */
   --accent-primary: #00ff41;
-  /* Matrix Green */
   --accent-secondary: #00f0ff;
-  /* Cyber Blue */
   --accent-tertiary: #bd00ff;
-  /* Neon Purple */
 
-  /* Text Colors */
   --text-primary: #ffffff;
   --text-secondary: #888888;
   --text-tertiary: #444444;
   --text-accent: #00ff41;
 
-  /* Glow Effects */
   --glow-green: rgba(0, 255, 65, 0.4);
   --glow-cyan: rgba(0, 240, 255, 0.4);
   --glow-purple: rgba(189, 0, 255, 0.4);
-
-  /* Globe Colors */
   --globe-ocean: #050505;
   --globe-land: #1a1a1a;
   --globe-grid: rgba(255, 255, 255, 0.05);
@@ -75,7 +66,6 @@ a {
   text-decoration: none;
 }
 
-/* Scrollbar Styling */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -93,19 +83,16 @@ a {
   background: var(--accent-primary);
 }
 
-/* Selection Styling */
 ::selection {
   background-color: var(--accent-primary);
   color: var(--bg-primary);
 }
 
-/* Utilities */
 .bg-noise {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   opacity: 0.03;
 }
 
-/* Glow Text Effect */
 .text-glow-green {
   text-shadow: 0 0 20px var(--glow-green);
 }
@@ -114,12 +101,10 @@ a {
   text-shadow: 0 0 20px var(--glow-cyan);
 }
 
-/* Smooth Scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-/* Container */
 .container {
   max-width: 1400px;
   margin: 0 auto;

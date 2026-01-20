@@ -7,13 +7,11 @@ import MorphingText from '@/components/ui/MorphingText'
 export default function Contact() {
   return (
     <section className="relative py-32 overflow-hidden">
-      {/* Background Elements */}
       <div className="absolute inset-0 bg-black" />
       <div className="absolute inset-0 bg-noise opacity-[0.03]" />
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto">
-          {/* Header */}
           <div className="text-center mb-20">
             <div className="flex items-center justify-center gap-2 mb-4">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
@@ -24,7 +22,7 @@ export default function Contact() {
               <MorphingText 
                 text="INITIATE TRANSMISSION"
                 className="text-5xl md:text-7xl font-bold text-white tracking-tight text-center"
-                duration={6}
+                duration={4}
               />
             </div>
             
@@ -35,7 +33,6 @@ export default function Contact() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-6">
-            {/* Email Direct Link */}
             <Magnetic>
               <motion.a
                 href="mailto:tammy.batubo@gmail.com"
@@ -56,13 +53,11 @@ export default function Contact() {
                 
                 <div className="absolute bottom-0 left-0 w-full h-0.5 bg-accent-primary scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                 
-                {/* Corner Accents */}
                 <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-white/20 group-hover:border-accent-primary transition-colors" />
                 <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-white/20 group-hover:border-accent-primary transition-colors" />
               </motion.a>
             </Magnetic>
 
-            {/* LinkedIn Direct Link */}
             <Magnetic>
               <motion.a
                 href="https://www.linkedin.com/in/tammybatubo/"
@@ -83,7 +78,6 @@ export default function Contact() {
                 
                 <div className="absolute bottom-0 left-0 w-full h-0.5 bg-accent-secondary scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                 
-                {/* Corner Accents */}
                 <div className="absolute top-0 right-0 w-4 h-4 border-t border-r border-white/20 group-hover:border-accent-secondary transition-colors" />
                 <div className="absolute bottom-0 left-0 w-4 h-4 border-b border-l border-white/20 group-hover:border-accent-secondary transition-colors" />
               </motion.a>

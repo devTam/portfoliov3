@@ -27,7 +27,6 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
           clearInterval(timer)
           return 100
         }
-        // Random increment for realistic feel
         const increment = Math.random() * 5 + 1
         return Math.min(prev + increment, 100)
       })
@@ -49,7 +48,7 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
         setIsComplete(true)
         setTimeout(() => {
           onLoadingComplete()
-        }, 1000) // Wait for exit animation
+        }, 1000)
       }, 500)
     }
   }, [progress, onLoadingComplete])
@@ -65,7 +64,6 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
             transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } 
           }}
         >
-          {/* Background Grid */}
           <div className="absolute inset-0 opacity-10 pointer-events-none">
             <div 
               className="w-full h-full" 
@@ -77,12 +75,10 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
           </div>
 
           <div className="relative z-10 flex flex-col items-center w-full max-w-md px-4">
-            {/* Counter */}
             <div className="font-mono text-9xl md:text-[12rem] font-bold text-white tracking-tighter leading-none mb-8 opacity-90">
               {Math.floor(progress)}%
             </div>
 
-            {/* Progress Bar */}
             <div className="w-full h-1 bg-white/10 rounded-full mb-4 overflow-hidden">
               <motion.div 
                 className="h-full bg-white"
@@ -92,7 +88,6 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
               />
             </div>
 
-            {/* Loading Status Text */}
             <div className="w-full flex justify-between items-center text-xs font-mono text-white/50">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
@@ -102,7 +97,6 @@ export default function LoadingScreen({ onLoadingComplete }: LoadingScreenProps)
             </div>
           </div>
 
-          {/* Decorative Corners */}
           <div className="absolute top-8 left-8 w-4 h-4 border-t border-l border-white/30" />
           <div className="absolute top-8 right-8 w-4 h-4 border-t border-r border-white/30" />
           <div className="absolute bottom-8 left-8 w-4 h-4 border-b border-l border-white/30" />

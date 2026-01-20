@@ -73,16 +73,6 @@ portfolio/
 - `npm run format` - Format code with Prettier
 - `npm run type-check` - Run TypeScript type checking
 
-## Development Phases
-
-- ✅ **Phase 1**: Project Setup & Foundation
-- ⏳ **Phase 2**: Landing Section
-- ⏳ **Phase 3**: Globe Implementation
-- ⏳ **Phase 4**: AI Assistant
-- ⏳ **Phase 5**: CTA & Contact
-- ⏳ **Phase 6**: Polish & Optimization
-- ⏳ **Phase 7**: Testing & Deployment
-
 ## Design System
 
 ### Colors

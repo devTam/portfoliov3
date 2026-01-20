@@ -10,7 +10,7 @@ if (typeof window !== 'undefined') {
 }
 
 const stats = [
-  { label: 'YEARS ESP', value: '05' },
+  { label: 'YEARS ESP', value: '06' },
   { label: 'COMPANIES', value: '07' },
   { label: 'PROJECTS', value: '50+' },
   { label: 'STACK_SIZE', value: '20+' },
@@ -61,10 +61,8 @@ export default function Intro() {
       <div className="container mx-auto px-6 md:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
           
-          {/* Left Column - Bio */}
           <div className="lg:col-span-7">
             <span className="text-xs font-mono text-accent-primary mb-6 block tracking-widest">
-              {/* // ABOUT_PROFILE */}
               ABOUT_PROFILE
             </span>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-8 leading-tight uppercase font-mono tracking-tighter">
@@ -74,7 +72,7 @@ export default function Intro() {
             </h2>
             <div className="font-mono text-sm md:text-base text-white/60 space-y-6 leading-relaxed max-w-2xl border-l border-white/10 pl-6">
               <p>
-                Senior Software Engineer with 5+ years of experience specializing in high-performance Full-Stack JavaScript applications. 
+                Senior Software Engineer with 6+ years of experience specializing in high-performance Full-Stack JavaScript applications. 
                 Expert in architecting scalable systems using React, Node.js, and Cloud Infrastructure.
               </p>
               <p>
@@ -83,9 +81,7 @@ export default function Intro() {
             </div>
           </div>
 
-          {/* Right Column - Data Grid */}
           <div className="lg:col-span-5 flex flex-col justify-between">
-            {/* Stats */}
             <div id="intro-stats" className="grid grid-cols-2 gap-x-8 gap-y-12 mb-16">
               {stats.map((stat) => (
                 <div key={stat.label} className="stat-item flex flex-col border-t border-white/20 pt-4">
@@ -99,10 +95,8 @@ export default function Intro() {
               ))}
             </div>
 
-            {/* Tech Stack - Raw Data Look */}
             <div id="intro-tech">
               <span className="text-xs font-mono text-white/30 mb-6 block tracking-widest border-b border-white/10 pb-2">
-                {/* // SYSTEM_DEPENDENCIES */}
                 SYSTEM_DEPENDENCIES
               </span>
               <div className="flex flex-wrap gap-2">

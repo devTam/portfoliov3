@@ -92,10 +92,7 @@ export default function AIAssistant() {
 
   return (
     <>
-      {/* Trigger Button Area */}
       <div className="fixed bottom-6 right-6 z-50 flex items-center gap-4">
-        
-        {/* Callout Text */}
         <AnimatePresence>
           {!isOpen && (
             <motion.div 
@@ -112,7 +109,6 @@ export default function AIAssistant() {
           )}
         </AnimatePresence>
 
-        {/* Button */}
         <motion.button
           aria-label="Open AI Assistant"
           className="relative w-20 h-20 rounded-full bg-black/90 border-2 border-accent-primary/60 backdrop-blur-md flex items-center justify-center group hover:border-accent-primary hover:shadow-[0_0_30px_rgba(34,197,94,0.3)] transition-all duration-300 overflow-hidden"
@@ -122,7 +118,6 @@ export default function AIAssistant() {
         >
           {!isOpen && (
             <div className="absolute inset-0">
-               {/* Avatar Image for Button */}
               <Image 
                 src="/ai-avatar.jpg" 
                 alt="AI Avatar" 
@@ -130,16 +125,13 @@ export default function AIAssistant() {
                 unoptimized
                 className="object-cover opacity-90"
               />
-              {/* Scanline overlay */}
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-accent-primary/20 to-transparent animate-scan" style={{ animationDuration: '2s' }} />
             </div>
           )}
-          {/* Ring Animation */}
           <div className="absolute inset-0 border-2 border-transparent border-t-accent-primary rounded-full animate-spin" style={{ animationDuration: '3s' }} />
         </motion.button>
       </div>
 
-      {/* Main Chat Interface */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -148,11 +140,9 @@ export default function AIAssistant() {
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             className="fixed bottom-24 right-6 z-50 w-[90vw] md:w-[400px] h-[500px] bg-black/90 border border-white/10 backdrop-blur-xl flex flex-col shadow-2xl overflow-hidden rounded-lg"
           >
-            {/* Decorative Grid Background */}
             <div className="absolute inset-0 bg-noise opacity-[0.05] pointer-events-none" />
             <div className="absolute inset-0 pointer-events-none border border-accent-primary/20 m-1 rounded" />
 
-            {/* Header */}
             <div className="relative z-10 p-4 border-b border-white/10 flex justify-between items-center bg-white/5">
               <div className="flex items-center gap-3">
                 <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
@@ -170,7 +160,6 @@ export default function AIAssistant() {
               </button>
             </div>
 
-            {/* Avatar & Visualization Area */}
             <div className="relative h-32 w-full overflow-hidden border-b border-white/10 bg-black">
                 <Image 
                   src="/ai-avatar.jpg" 
@@ -185,7 +174,6 @@ export default function AIAssistant() {
                 </div>
             </div>
 
-            {/* Messages Area */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-white/20">
               {messages.map((msg) => (
                 <div 
@@ -226,7 +214,6 @@ export default function AIAssistant() {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input Area */}
             <form onSubmit={handleSendMessage} className="p-4 border-t border-white/10 bg-black/50">
               <div className="flex gap-2">
                 <input
