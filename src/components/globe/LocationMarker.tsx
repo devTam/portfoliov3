@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useState, useMemo } from 'react'
-import { useFrame } from '@react-three/fiber'
+import { ThreeEvent, useFrame } from '@react-three/fiber'
 import { Sphere, Cone, Html } from '@react-three/drei'
 import * as THREE from 'three'
 import { Company } from '@/lib/data/companies'
@@ -89,7 +89,7 @@ export default function LocationMarker({
     return [vec.x, vec.y, vec.z] as [number, number, number]
   }, [position])
 
-  const handlePointerOver = (e: any) => {
+  const handlePointerOver = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation()
     setHovered(true)
     document.body.style.cursor = 'pointer'
