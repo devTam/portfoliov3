@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     description: 'Portfolio showcasing 6+ years of software development experience',
   },
   icons: {
-    icon: '/favicon.ico',
+    icon: '/favicon.svg',
   },
 }
 
